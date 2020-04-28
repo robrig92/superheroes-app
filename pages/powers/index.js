@@ -1,4 +1,4 @@
-import axios from 'axios';
+import Axios from 'axios';
 import Layout from '../../components/layout';
 
 export default function Index({ powers }) {
@@ -9,6 +9,7 @@ export default function Index({ powers }) {
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -17,6 +18,10 @@ export default function Index({ powers }) {
                             <tr key={power.id}>
                                 <td>{power.id}</td>
                                 <td>{power.name}</td>
+                                <td>
+                                    <button className="btn btn-primary">Edit</button>
+                                    <button className="btn btn-secondary">Delete</button>
+                                </td>
                             </tr>
                         )
                     })}
@@ -28,8 +33,9 @@ export default function Index({ powers }) {
 
 export async function getServerSideProps(context) {
     let powers = [];
+
     try {
-        const response = await axios.get('http://localhost:3001/powers')
+        const response = await Axios.get('http://localhost:3001/powers')
         powers = response.data.data.powers
     } catch(err) {
         console.log(err)

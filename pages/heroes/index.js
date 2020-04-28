@@ -1,6 +1,5 @@
-import Layout from "../../components/layout";
-import Axios from "axios";
-
+import Axios from 'axios';
+import Layout from '../../components/layout';
 
 export default function Index({ heroes }) {
     return (
@@ -12,6 +11,7 @@ export default function Index({ heroes }) {
                         <th>Name</th>
                         <th>Age</th>
                         <th>Powers</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,6 +22,10 @@ export default function Index({ heroes }) {
                                 <td>{heroe.name}</td>
                                 <td>{heroe.age}</td>
                                 <td>{heroe.powers.map((power) => power.name).join(', ')}</td>
+                                <td>
+                                    <button className="btn btn-primary">Edit</button>
+                                    <button className="btn btn-secondary">Delete</button>
+                                </td>
                             </tr>
                         )
                     })}
