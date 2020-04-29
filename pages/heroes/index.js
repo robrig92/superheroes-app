@@ -1,5 +1,6 @@
 import Axios from 'axios';
-import Layout from '../../components/layout';
+import { FaTrashAlt, FaPencilAlt } from 'react-icons/fa'
+import Layout from '../../components/layout'
 
 export default function Index({ heroes }) {
     return (
@@ -22,9 +23,9 @@ export default function Index({ heroes }) {
                                 <td>{heroe.name}</td>
                                 <td>{heroe.age}</td>
                                 <td>{heroe.powers.map((power) => power.name).join(', ')}</td>
-                                <td>
-                                    <button className="btn btn-primary">Edit</button>
-                                    <button className="btn btn-secondary">Delete</button>
+                                <td className="text-right">
+                                    <button className="btn btn-primary"><FaPencilAlt/></button>
+                                    <button className="btn btn-secondary ml-2"> <FaTrashAlt/></button>
                                 </td>
                             </tr>
                         )

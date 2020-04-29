@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function Layout({ title, children, selected }) {
     return (
-        <Container className="mt-4">
+        <Container fluid className="mt-4">
             <div className="row">
                 <div className="col-12">
                     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
