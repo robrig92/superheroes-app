@@ -60,8 +60,8 @@ export default function Index({ powers }) {
             </div>
             <div className="row mt-2">
                 <div className="col-12">
-                    <table className="table">
-                        <thead>
+                    <table className="table table-striped">
+                        <thead className="thead-dark">
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
