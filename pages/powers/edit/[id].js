@@ -1,5 +1,6 @@
-import Layout from "../../../components/layout";
 import Axios from 'axios';
+import Swal from 'sweetalert2'
+import Layout from "../../../components/layout";
 import Form from "../../../components/powers/form";
 
 const handleSubmit = (event, power) => {
@@ -9,10 +10,18 @@ const handleSubmit = (event, power) => {
             name: power.name
         })
         .then((response) => {
-            alert('Actualizado')
+            Swal.fire({
+                icon: 'success',
+                title: 'Updated!',
+                text: 'The power has been updated!'
+            })
         })
         .catch((error) => {
-            alert('Ocurrió un error al actualizar')
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!'
+            })
         })
 }
 
