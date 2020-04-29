@@ -19,9 +19,9 @@ export function SimpleBackButton({ href }) {
     )
 }
 
-export function DeleteButton() {
+export function DeleteButton({ handleDelete, id }) {
     return (
-        <button className="btn btn-secondary ml-2 btn-md" data-toggle="tooltip" title="Delete"><FaTrashAlt /></button>
+        <button className="btn btn-secondary ml-2 btn-md" data-toggle="tooltip" title="Delete" onClick={e => handleDelete(id)}><FaTrashAlt /></button>
     )
 }
 

@@ -6,18 +6,26 @@ import Form from "../../../components/powers/form";
 const handleSubmit = (event, power) => {
     event.preventDefault()
 
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-secondary'
+        },
+        buttonsStyling: false
+    })
+
     Axios.put(`http://localhost:3001/powers/${power.id}`, {
             name: power.name
         })
         .then((response) => {
-            Swal.fire({
+            swalWithBootstrapButtons.fire({
                 icon: 'success',
                 title: 'Updated!',
                 text: 'The power has been updated!'
             })
         })
         .catch((error) => {
-            Swal.fire({
+            swalWithBootstrapButtons.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Something went wrong!'

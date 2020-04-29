@@ -2,14 +2,16 @@ import { useState } from 'react'
 import { Container } from 'reactstrap'
 import { SaveButton, SimpleBackButton } from '../../components/forms/buttons'
 
-const handleOnChange = (event, power, setPower) => {
-    let name = event.target.value
-
-    setPower({ ...power, name: name })
-}
 
 export default function Form({ power, handleSubmit }) {
-    const [ currentPower, setPower ] = useState({...power})
+    const [currentPower, setPower] = useState({ ...power })
+
+    const handleOnChange = (event, power, setPower) => {
+        let name = event.target.value
+    
+        setPower({ ...power, name: name })
+    }
+
     return(
         <Container>
             <form onSubmit={(e) => handleSubmit(e, currentPower)}>
