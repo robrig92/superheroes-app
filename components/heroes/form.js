@@ -61,6 +61,16 @@ export default function Form({ heroe, powers, handleSubmit }) {
                         </div>
                     </div>
                 </div>
+                <div className="form-group">
+                    <label htmlFor="exampleFormControlSelect2">Example multiple select</label>
+                    <select multiple className="form-control" id="exampleFormControlSelect2">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
                 <div className="form-group text-right">
                     <SaveButton/>
                     <SimpleBackButton href="/heroes"/>
