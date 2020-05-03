@@ -1,8 +1,55 @@
 import Axios from 'axios'
-import { AddButton, EditButton, DeleteButton } from '../../components/forms/buttons'
+import Swal from 'sweetalert2'
+import { useRouter } from 'next/router'
+import {
+    AddButton,
+    EditButton,
+    DeleteButton
+} from '../../components/forms/buttons'
 import Layout from '../../components/layout'
 
 export default function Index({ heroes }) {
+    const router = useRouter()
+
+    const handleDelete = (id) => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-secondary',
+                cancelButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                Axios.delete(`http://localhost:3001/heroes/${id}`)
+                    .then((response) => {
+                        swalWithBootstrapButtons.fire(
+                            'Deleted!',
+                            'The heroe has been deleted.',
+                            'success'
+                        )
+                        router.push('/heroes')
+                    })
+                    .catch((error) => {
+                        swalWithBootstrapButtons.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!'
+                        })
+                    })
+            }
+        })
+    }
+
     return (
         <Layout title="Heroes" selected="heroes">
             <div className="row">
@@ -32,7 +79,7 @@ export default function Index({ heroes }) {
                                         <td>{heroe.powers.map((power) => power.name).join(', ')}</td>
                                         <td className="text-right">
                                             <EditButton href="/heroes/edit/[id]" as={`/heroes/edit/${heroe.id}`}/>
-                                            <DeleteButton/>
+                                            <DeleteButton id={heroe.id} handleDelete={handleDelete}/>
                                         </td>
                                     </tr>
                                 )

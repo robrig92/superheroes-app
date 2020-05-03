@@ -5,7 +5,7 @@ import MultiSelect from "react-multi-select-component";
 
 export default function Form({ heroe, powers, handleSubmit }) {
     const [currentHeroe, setHeroe] = useState({...heroe})
-    const [selected, setSelected] = useState([])
+    const [selected, setSelected] = useState(heroe.powers)
 
     const handlingSubmit = (event) => {
         event.preventDefault()

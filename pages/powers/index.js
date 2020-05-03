@@ -1,7 +1,7 @@
-import Axios from 'axios';
-import Swal from 'sweetalert2';
+import Axios from 'axios'
+import Swal from 'sweetalert2'
 import { useRouter } from 'next/router'
-import Layout from '../../components/layout';
+import Layout from '../../components/layout'
 import {
     EditButton,
     DeleteButton,
@@ -29,7 +29,6 @@ export default function Index({ powers }) {
             cancelButtonText: 'No, cancel!',
             reverseButtons: true
         }).then((result) => {
-            console.log(result.value)
             if (result.value) {
                 Axios.delete(`http://localhost:3001/powers/${id}`)
                     .then((response) => {

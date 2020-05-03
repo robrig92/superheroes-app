@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import Form from "../../components/heroes/form";
 import Layout from '../../components/layout';
 
-export default function New({ powers }) {
+export default function New({ heroe, powers }) {
     const router = useRouter()
 
     const handleSubmit = (event, heroe) => {
@@ -39,13 +39,18 @@ export default function New({ powers }) {
 
     return (
         <Layout title="Add a hero" enabled="heroes">
-            <Form heroe={{}} powers={powers} handleSubmit={handleSubmit}/>
+            <Form heroe={heroe} powers={powers} handleSubmit={handleSubmit}/>
         </Layout>
     )
 }
 
 export async function getServerSideProps(context) {
     let powers = []
+    let heroe = {
+        name: '',
+        age: '',
+        powers: []
+    }
 
     try {
         const response = await Axios.get('http://localhost:3001/powers')
@@ -58,6 +63,7 @@ export async function getServerSideProps(context) {
 
     return {
         props: {
+            heroe,
             powers
         }
     }
