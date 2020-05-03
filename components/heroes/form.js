@@ -1,13 +1,22 @@
 import { Container } from "reactstrap"
 import { useState } from 'react'
 import { SaveButton, SimpleBackButton } from '../forms/buttons';
+import MultiSelect from "react-multi-select-component";
 
 export default function Form({ heroe, powers, handleSubmit }) {
     const [currentHeroe, setHeroe] = useState({...heroe})
+    const [selected, setSelected] = useState([])
 
     const handlingSubmit = (event) => {
         event.preventDefault()
-        handleSubmit(event, currentHeroe)
+
+        let powers = selected.map((power) => power.value)
+        let heroe = {
+            ...currentHeroe,
+            powers
+        }
+
+        handleSubmit(event, heroe)
     }
 
     const handleNameOnChange = (event) => {
@@ -20,11 +29,6 @@ export default function Form({ heroe, powers, handleSubmit }) {
         setHeroe({...currentHeroe, age})
     }
 
-    const handlePowersOnChange = (event) => {
-        let currentPowers = event.target.value
-        setHeroe({...currentHeroe, powers: currentPowers})
-    }
-
     return (
         <Container>
             <form onSubmit={(e) => handlingSubmit(e)}>
@@ -32,7 +36,7 @@ export default function Form({ heroe, powers, handleSubmit }) {
                     <div className="col-12">
                         <div className="form-group">
                             <label htmlFor="name">Name</label>
-                            <input type="text" className="form-control" name="name" value={currentHeroe.name || ''} onChange={handleNameOnChange}/>
+                            <input type="text" className="form-control" name="name" value={currentHeroe.name || ''} onChange={handleNameOnChange} required/>
                             <small id="nameHelp" className="form-text text-muted">Name of the heroe</small>
                         </div>
                     </div>
@@ -41,7 +45,7 @@ export default function Form({ heroe, powers, handleSubmit }) {
                     <div className="col-12">
                         <div className="form-group">
                             <label htmlFor="age">Age</label>
-                            <input type="number" className="form-control" name="age" value={currentHeroe.age || 0} onChange={handleAgeOnChange}/>
+                            <input type="number" className="form-control" name="age" value={currentHeroe.age || ''} onChange={handleAgeOnChange} required/>
                             <small id="ageHelp" className="form-text text-muted">Age of the heroe</small>
                         </div>
                     </div>
@@ -50,26 +54,15 @@ export default function Form({ heroe, powers, handleSubmit }) {
                     <div className="col-12">
                         <div className="form-group">
                             <label htmlFor="powers">Powers</label>
-                            <select multiple className="form-control" name="powers" onChange={handlePowersOnChange}>
-                                {powers.map((power) => {
-                                    return(
-                                        <option key={power.id} value={power.id}>{power.name}</option>
-                                    )
-                                })}
-                            </select>
+                            <MultiSelect
+                                options={powers}
+                                value={selected}
+                                onChange={setSelected}
+                                labelledBy={"Select"}
+                            />
                             <small id="powersHelp" className="form-text text-muted">Powers of the heroe</small>
                         </div>
                     </div>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="exampleFormControlSelect2">Example multiple select</label>
-                    <select multiple className="form-control" id="exampleFormControlSelect2">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
                 </div>
                 <div className="form-group text-right">
                     <SaveButton/>
