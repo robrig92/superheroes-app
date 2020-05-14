@@ -1,0 +1,30 @@
+
+.fullScreenForm {
+    height: 100vh;
+}
+
+.fullWidthButton {
+    width: 100%;
+    border-radius: 0%;
+}
+
+.formLoginContainer {
+    height: 100vh;
+    background-color: #1c3a7ea9;
+}
+
+.customFormLogin {
+    border-radius: 4%;
+    padding: 30px;
+    background-color: #ffffff;
+}
+
+.formSignUpContainer {
+    height: 100vh;
+}
+
+.customFormSignUp {
+    border-radius: 4%;
+    padding: 30px;
+    background-color: #ffffff;
+}
