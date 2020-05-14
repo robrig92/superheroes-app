@@ -1,11 +1,43 @@
 import Head from 'next/head'
 import styles from './index.module.css'
+import axios from 'axios';
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 export default function Login () {
+    const router = useRouter()
+    const [ loginUsername, setLoginUsername ] = useState('')
+    const [ loginPassword, setLoginPassword ] = useState('')
+
     const handleLogin = (e) => {
         e.preventDefault()
 
-        console.log('login')
+        axios.post('http://localhost:3001/auth/login', {
+                username: loginUsername,
+                password: loginPassword
+            })
+            .then((response) => {
+                let jwt = response.data.data.jwt
+                let user = response.data.data.user
+
+                localStorage.setItem('jwt', jwt)
+                localStorage.setItem('user', user)
+                
+                router.push('/')
+            })
+            .catch((err) => {
+                
+            })
+    }
+
+    const handleLoginUsernameOnChange = (e) => {
+        let username = e.target.value
+        setLoginUsername(username)
+    }
+
+    const handleLoginPasswordOnChange = (e) => {
+        let password = e.target.value
+        setLoginPassword(password)
     }
 
     return (
@@ -21,10 +53,10 @@ export default function Login () {
                                 <h2 className="text-center">Welcome!</h2>
                                 <form onSubmit={handleLogin}>
                                     <div className="form-group">
-                                        <input name="username" className="form-control" placeholder="Username" type="text"/>
+                                        <input name="username" className="form-control" placeholder="Username" type="text" value={loginUsername} onChange={handleLoginUsernameOnChange} />
                                     </div>
                                     <div className="form-group">
-                                        <input name="password" className="form-control" placeholder="Password" type="password" />
+                                        <input name="password" className="form-control" placeholder="Password" type="password" value={loginPassword} onChange={handleLoginPasswordOnChange} />
                                     </div>
                                     <div className="text-center">
                                         <input type="submit" className={"btn btn-primary " + styles.fullWidthButton } value="Log in!" />
