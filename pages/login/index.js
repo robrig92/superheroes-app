@@ -3,6 +3,7 @@ import styles from './index.module.css'
 import axios from 'axios';
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import Cookies from 'js-cookie';
 
 export default function Login () {
     const router = useRouter()
@@ -20,8 +21,8 @@ export default function Login () {
                 let jwt = response.data.data.jwt
                 let user = response.data.data.user
 
-                localStorage.setItem('jwt', jwt)
-                localStorage.setItem('user', user)
+                Cookies.set('jwt', jwt)
+                Cookies.set('user', user)
                 
                 router.push('/')
             })
