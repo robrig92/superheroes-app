@@ -1,8 +1,8 @@
-import '../node_modules/jquery/dist/jquery'
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
+import '../node_modules/jquery/dist/jquery'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 export default function App({ Component, pageProps }) {
     const router = useRouter()
