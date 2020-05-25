@@ -1,9 +1,10 @@
 import Head from 'next/head'
 import styles from './index.module.css'
-import axios from 'axios';
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import Cookies from 'js-cookie';
+import CookiesManager from '../../lib/cookies_manager'
+import RequestHandler from '../../lib/request_handler'
+import ResponseHander from '../../lib/response_handler'
 
 export default function Login () {
     const router = useRouter()
@@ -12,23 +13,23 @@ export default function Login () {
 
     const handleLogin = (e) => {
         e.preventDefault()
+        const cookiesManager = new CookiesManager()
 
-        axios.post('http://localhost:3001/auth/login', {
-                username: loginUsername,
-                password: loginPassword
-            })
-            .then((response) => {
-                let jwt = response.data.data.jwt
-                let user = response.data.data.user
+        RequestHandler.post('/auth/login', {
+            username: loginUsername,
+            password: loginPassword
+        }).then((response) => {
+            let responseHandler = new ResponseHander(response)
+            let jwt = responseHandler.data.jwt
+            let user = responseHandler.data.user
 
-                Cookies.set('jwt', jwt)
-                Cookies.set('user', user)
-                
-                router.push('/')
-            })
-            .catch((err) => {
-                
-            })
+            cookiesManager.set('jwt', jwt)
+            cookiesManager.set('user', user)
+
+            router.push('/')
+        }).catch((err) => {
+            // Do something...
+        })
     }
 
     const handleLoginUsernameOnChange = (e) => {

@@ -2,6 +2,9 @@ import Axios from 'axios'
 import Swal from 'sweetalert2'
 import { useRouter } from 'next/router'
 import Layout from '../../components/layout'
+import CookiesManager from '../../lib/cookies_manager'
+import RequestHandler from '../../lib/request_handler'
+import ResponseHandler from '../../lib/response_handler'
 import {
     EditButton,
     DeleteButton,
@@ -90,13 +93,22 @@ export default function Index({ powers }) {
 
 export async function getServerSideProps(context) {
     let powers = [];
+    const cookiesManager = new CookiesManager(context.req.cookie)
 
     try {
-        const response = await Axios.get('http://localhost:3001/powers')
+        const response = await RequestHandler.get('/powers', {
+            headers: {
+                'Authorization': `Bearer ${cookiesManager.get('jwt')}`
+            }
+        })
+        const responseHandler = new ResponseHandler(response)
         powers = response.data.data.powers
     } catch(err) {
         console.log(err)
     }
+
+    console.log(context.req.cookies)
+
 
     return {
         props: {
