@@ -102,6 +102,9 @@ export async function getServerSideProps(context) {
         console.log(error)
     }
 
+    console.log(context.req.cookies)
+    console.log(context)
+
     return {
         props: {
             heroes
