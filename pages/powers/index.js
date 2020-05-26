@@ -93,22 +93,16 @@ export default function Index({ powers }) {
 
 export async function getServerSideProps(context) {
     let powers = [];
-    const cookiesManager = new CookiesManager(context.req.cookie)
+    let cookies = context.req.cookies
+    let headers = RequestHandler.addJwtToHeaders({}, cookies.jwt)
 
     try {
-        const response = await RequestHandler.get('/powers', {
-            headers: {
-                'Authorization': `Bearer ${cookiesManager.get('jwt')}`
-            }
-        })
+        const response = await RequestHandler.get('/powers', { headers })
         const responseHandler = new ResponseHandler(response)
-        powers = response.data.data.powers
+        powers = responseHandler.data.powers
     } catch(err) {
         console.log(err)
     }
-
-    console.log(context.req.cookies)
-
 
     return {
         props: {
