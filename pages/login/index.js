@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Swal from 'sweetalert2';
 import styles from './index.module.css'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
@@ -8,6 +9,7 @@ import ResponseHander from '../../lib/response_handler'
 
 export default function Login () {
     const router = useRouter()
+    const [ signUp, setSignUp ] = useState({})
     const [ loginUsername, setLoginUsername ] = useState('')
     const [ loginPassword, setLoginPassword ] = useState('')
 
@@ -42,6 +44,34 @@ export default function Login () {
         setLoginPassword(password)
     }
 
+    const handleSignUpSubmit = (e) => {
+        e.preventDefault()
+        let { name, username, password, email } = signUp
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-primary',
+                cancelButton: 'btn btn-secondary'
+            },
+            buttonsStyling: false
+        })
+
+        RequestHandler.post('/users', {
+            name,
+            username,
+            password,
+            email
+        }).then((response) => {
+            swalWithBootstrapButtons.fire({
+                icon: 'success',
+                title: 'Created!',
+                text: 'The account has been created'
+            })
+            setSignUp({})
+        }).catch((err) => {
+            // Do something
+        })
+    }
+
     return (
         <div className="container-fluid">
             <Head>
@@ -72,18 +102,18 @@ export default function Login () {
                     <div className={ "row " + styles.formSignUpContainer }>
                         <div className="offset-2 offset-md-3 col-md-6 col-8 align-self-center">
                             <h4 className="text-center">Don't have an account? Sign up here!</h4>
-                            <form>
+                            <form onSubmit={handleSignUpSubmit}>
                                 <div className="form-group">
-                                    <input name="name" className="form-control" placeholder="Name" type="text" />
+                                    <input name="name" className="form-control" placeholder="Name" type="text" value={signUp.name || ''} onChange={(e) => setSignUp({...signUp, name: e.target.value})} />
                                 </div>
                                 <div className="form-group">
-                                    <input name="username" className="form-control" placeholder="Username" type="text" />
+                                    <input name="username" className="form-control" placeholder="Username" type="text" value={signUp.username || ''} onChange={(e) => setSignUp({ ...signUp, username: e.target.value })} />
                                 </div>
                                 <div className="form-group">
-                                    <input name="email" className="form-control" placeholder="E-mail" type="email" />
+                                    <input name="email" className="form-control" placeholder="E-mail" type="email" value={signUp.email || ''} onChange={(e) => setSignUp({ ...signUp, email: e.target.value })} />
                                 </div>
                                 <div className="form-group">
-                                    <input name="password" className="form-control" placeholder="Password" type="password" />
+                                    <input name="password" className="form-control" placeholder="Password" type="password" value={signUp.password || ''} onChange={(e) => setSignUp({ ...signUp, password: e.target.value })} />
                                 </div>
                                 <div className="text-center">
                                     <input type="submit" className={"btn btn-primary " + styles.fullWidthButton} value="Sign up!" />

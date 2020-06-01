@@ -1,5 +1,5 @@
-import Axios from 'axios'
 import Swal from 'sweetalert2'
+import RequestHandler from '../../lib/request_handler'
 import { useRouter } from 'next/router'
 import {
     AddButton,
@@ -7,6 +7,7 @@ import {
     DeleteButton
 } from '../../components/forms/buttons'
 import Layout from '../../components/layout'
+import ResponseHandler from '../../lib/response_handler';
 
 export default function Index({ heroes }) {
     const router = useRouter()
@@ -94,16 +95,16 @@ export default function Index({ heroes }) {
 
 export async function getServerSideProps(context) {
     let heroes = []
-    
+    let jwt = context.req.cookies.jwt
+    let headers = RequestHandler.addJwtToHeaders({}, jwt)
+
     try {
-        const response = await Axios.get('http://localhost:3001/heroes')
-        heroes = response.data.data.heroes
+        const response = RequestHandler.get('/powers', { headers })
+        let responseHandler = new ResponseHandler(response) 
+        heroes = responseHandler.data.heroes
     } catch (error) {
         console.log(error)
     }
-
-    console.log(context.req.cookies)
-    console.log(context)
 
     return {
         props: {
