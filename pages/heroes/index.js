@@ -1,5 +1,5 @@
-import Axios from 'axios'
 import Swal from 'sweetalert2'
+import RequestHandler from '../../lib/request_handler'
 import { useRouter } from 'next/router'
 import {
     AddButton,
@@ -7,11 +7,16 @@ import {
     DeleteButton
 } from '../../components/forms/buttons'
 import Layout from '../../components/layout'
+import ResponseHandler from '../../lib/response_handler'
+import CookiesManager from '../../lib/cookies_manager'
 
 export default function Index({ heroes }) {
     const router = useRouter()
 
     const handleDelete = (id) => {
+        const cookiesManager = new CookiesManager()
+        const jwt = cookiesManager.get('jwt')
+        let headers = RequestHandler.addJwtToHeaders({}, jwt)
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-secondary',
@@ -30,7 +35,7 @@ export default function Index({ heroes }) {
             reverseButtons: true
         }).then((result) => {
             if (result.value) {
-                Axios.delete(`http://localhost:3001/heroes/${id}`)
+                RequestHandler.delete(`heroes/${id}`, { headers })
                     .then((response) => {
                         swalWithBootstrapButtons.fire(
                             'Deleted!',
@@ -94,10 +99,13 @@ export default function Index({ heroes }) {
 
 export async function getServerSideProps(context) {
     let heroes = []
-    
+    let jwt = context.req.cookies.jwt
+    let headers = RequestHandler.addJwtToHeaders({}, jwt)
+
     try {
-        const response = await Axios.get('http://localhost:3001/heroes')
-        heroes = response.data.data.heroes
+        const response = await RequestHandler.get('/heroes', { headers })
+        let responseHandler = new ResponseHandler(response)
+        heroes = responseHandler.data.heroes
     } catch (error) {
         console.log(error)
     }

@@ -1,11 +1,16 @@
-import Axios from 'axios';
 import Swal from 'sweetalert2'
-import Layout from "../../../components/layout";
-import Form from "../../../components/powers/form";
+import Layout from "../../../components/layout"
+import Form from "../../../components/powers/form"
+import RequestHandler from '../../../lib/request_handler'
+import ResponseHandler from '../../../lib/response_handler'
+import CookiesManager from '../../../lib/cookies_manager'
 
 const handleSubmit = (event, power) => {
     event.preventDefault()
 
+    const cookiesManager = new CookiesManager()
+    const jwt = cookiesManager.get('jwt')
+    let headers = RequestHandler.addJwtToHeaders({}, jwt)
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: 'btn btn-primary',
@@ -14,9 +19,7 @@ const handleSubmit = (event, power) => {
         buttonsStyling: false
     })
 
-    Axios.put(`http://localhost:3001/powers/${power.id}`, {
-            name: power.name
-        })
+    RequestHandler.put(`powers/${power.id}`, { name: power.name }, { headers})
         .then((response) => {
             swalWithBootstrapButtons.fire({
                 icon: 'success',
@@ -46,12 +49,15 @@ export default function editForm( {power} ) {
 }
 
 export async function getServerSideProps(context) {
-    let power = {};
-    const { id } = context.params;
+    let power = {}
+    const jwt = context.req.cookies.jwt
+    let headers = RequestHandler.addJwtToHeaders({}, jwt)
+    const { id } = context.params
 
     try {
-        const response = await Axios.get(`http://localhost:3001/powers/${id}`)
-        power = response.data.data.power
+        const response = await RequestHandler.get(`powers/${id}`, { headers })
+        const responseHandler = new ResponseHandler(response)
+        power = responseHandler.data.power
     } catch(error) {
         console.log(error)
     }

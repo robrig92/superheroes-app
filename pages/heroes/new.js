@@ -1,13 +1,19 @@
-import Axios from "axios";
 import { useRouter } from "next/router";
 import Swal from 'sweetalert2';
-import Form from "../../components/heroes/form";
-import Layout from '../../components/layout';
+import Form from "../../components/heroes/form"
+import Layout from '../../components/layout'
+import RequestHandler from '../../lib/request_handler'
+import ResponseHandler from '../../lib/response_handler'
+import CookiesManager from '../../lib/cookies_manager'
 
 export default function New({ heroe, powers }) {
     const router = useRouter()
 
     const handleSubmit = (event, heroe) => {
+        const cookiesManager = new CookiesManager()
+        const jwt = cookiesManager.get('jwt')
+        let headers = RequestHandler.addJwtToHeaders({}, jwt)
+
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary',
@@ -16,7 +22,7 @@ export default function New({ heroe, powers }) {
             buttonsStyling: false
         })
 
-        Axios.post('http://localhost:3001/heroes', heroe)
+        RequestHandler.post('/heroes', heroe, { headers })
             .then((response) => {
                 let createdHeroe = response.data.data.heroe
 
@@ -51,10 +57,13 @@ export async function getServerSideProps(context) {
         age: '',
         powers: []
     }
+    const jwt = context.req.cookies.jwt
+    let headers = RequestHandler.addJwtToHeaders({}, jwt)
 
     try {
-        const response = await Axios.get('http://localhost:3001/powers')
-        powers = response.data.data.powers.map((power) => {
+        const response = await RequestHandler.get('powers', { headers })
+        let responseHandler = new ResponseHandler(response)
+        powers = responseHandler.data.powers.map((power) => {
             return { label: power.name, value:power.id }
         })
     } catch (error) {
