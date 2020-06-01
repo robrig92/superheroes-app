@@ -8,11 +8,15 @@ import {
 } from '../../components/forms/buttons'
 import Layout from '../../components/layout'
 import ResponseHandler from '../../lib/response_handler'
+import CookiesManager from '../../lib/cookies_manager'
 
 export default function Index({ heroes }) {
     const router = useRouter()
 
     const handleDelete = (id) => {
+        const cookiesManager = new CookiesManager()
+        const jwt = cookiesManager.get('jwt')
+        let headers = RequestHandler.addJwtToHeaders({}, jwt)
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-secondary',
@@ -31,7 +35,7 @@ export default function Index({ heroes }) {
             reverseButtons: true
         }).then((result) => {
             if (result.value) {
-                Axios.delete(`http://localhost:3001/heroes/${id}`)
+                RequestHandler.delete(`heroes/${id}`, { headers })
                     .then((response) => {
                         swalWithBootstrapButtons.fire(
                             'Deleted!',

@@ -1,14 +1,19 @@
-import Axios from "axios"
 import Swal from 'sweetalert2'
 import { useRouter } from 'next/router'
 import Layout from "../../../components/layout"
 import Form from "../../../components/heroes/form"
+import RequestHandler from '../../../lib/request_handler'
+import ResponseHandler from '../../../lib/response_handler'
+import CookiesManager from '../../../lib/cookies_manager'
 
 export default function Edit({ heroe, powers }) {
     const router = useRouter()
 
     const handleSubmit = (event, heroe) => {
         event.preventDefault()
+        const cookiesManager = new CookiesManager()
+        const jwt = cookiesManager.get('jwt')
+        let headers = RequestHandler.addJwtToHeaders({}, jwt)
 
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -17,8 +22,8 @@ export default function Edit({ heroe, powers }) {
             },
             buttonsStyling: false
         })
-        
-        Axios.put(`http://localhost:3001/heroes/${heroe.id}`, heroe)
+
+        RequestHandler.put(`heroes/${heroe.id}`, heroe, { headers })
         .then((response) => {
             swalWithBootstrapButtons.fire({
                 icon: 'success',
@@ -46,6 +51,8 @@ export default function Edit({ heroe, powers }) {
 }
 
 export async function getServerSideProps(context) {
+    const jwt = context.req.cookies.jwt
+    let headers = RequestHandler.addJwtToHeaders({}, jwt)
     let id = context.params.id
     let heroe = {
         name: '',
@@ -55,14 +62,16 @@ export async function getServerSideProps(context) {
     let powers = []
 
     try {
-        let response = await Axios.get(`http://localhost:3001/heroes/${id}`)
-        heroe = response.data.data.heroe
+        let response = await RequestHandler.get(`heroes/${id}`, { headers })
+        let responseHandler = new ResponseHandler(response)
+        heroe = responseHandler.data.heroe
         heroe = { ...heroe, powers: heroe.powers.map((power) => {
                 return { label: power.name, value: power.id }
             }) }
 
-        response = await Axios.get('http://localhost:3001/powers')
-        powers = response.data.data.powers.map((power) => {
+        response = await RequestHandler.get('powers', { headers })
+        responseHandler = new ResponseHandler(response)
+        powers = responseHandler.data.powers.map((power) => {
             return { label: power.name, value: power.id }
         })
 
