@@ -7,7 +7,7 @@ import {
     DeleteButton
 } from '../../components/forms/buttons'
 import Layout from '../../components/layout'
-import ResponseHandler from '../../lib/response_handler';
+import ResponseHandler from '../../lib/response_handler'
 
 export default function Index({ heroes }) {
     const router = useRouter()
@@ -99,8 +99,8 @@ export async function getServerSideProps(context) {
     let headers = RequestHandler.addJwtToHeaders({}, jwt)
 
     try {
-        const response = RequestHandler.get('/powers', { headers })
-        let responseHandler = new ResponseHandler(response) 
+        const response = await RequestHandler.get('/heroes', { headers })
+        let responseHandler = new ResponseHandler(response)
         heroes = responseHandler.data.heroes
     } catch (error) {
         console.log(error)

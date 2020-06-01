@@ -1,8 +1,10 @@
-import Axios from 'axios'
 import Swal from 'sweetalert2'
 import { useRouter } from 'next/router'
 import Layout from "../../components/layout"
 import Form from '../../components/powers/form'
+import RequestHandler from '../../lib/request_handler'
+import CookiesManager from '../../lib/cookies_manager'
+import ResponseHandler from '../../lib/response_handler'
 
 export default function New() {
     const router = useRouter()
@@ -10,6 +12,9 @@ export default function New() {
     const handleSubmit = (event, power) => {
         event.preventDefault()
 
+        const cookiesManager = new CookiesManager()
+        const jwt = cookiesManager.get('jwt')
+        let headers = RequestHandler.addJwtToHeaders({}, jwt)
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-primary',
@@ -18,11 +23,10 @@ export default function New() {
             buttonsStyling: false
         })
 
-        Axios.post('http://localhost:3001/powers', {
-                name: power.name
-            })
+        RequestHandler.post('powers', { name: power.name }, { headers })
             .then((response) => {
-                let power = response.data.data.power
+                let responseHandler = new ResponseHandler(response)
+                let power = responseHandler.data.power
 
                 swalWithBootstrapButtons.fire({
                     icon: 'success',
