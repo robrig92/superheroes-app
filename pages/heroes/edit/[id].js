@@ -27,7 +27,7 @@ export default function Edit({ heroe, powers }) {
         .then((response) => {
             swalWithBootstrapButtons.fire({
                 icon: 'success',
-                title: 'Created!',
+                title: 'Updated!',
                 text: 'The heroe has been created'
             })
 
