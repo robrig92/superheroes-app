@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Head from 'next/head'
 import { Container } from "reactstrap"
+import styles from './layout.module.css'
 
 export default function Layout({ title, children, selected }) {
     return (
@@ -10,7 +11,7 @@ export default function Layout({ title, children, selected }) {
             </Head>
             <div>
                 <div className="row">
-                    <div className="col-12">
+                    <div className={"col-12 " + styles.fullWidth}>
                         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                             <Link href="/"><a className="navbar-brand">Home</a></Link>
                             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,6 +30,7 @@ export default function Layout({ title, children, selected }) {
                         </nav>
                         <div className="text-center">
                             <h1>{title}</h1>
+                            <hr/>
                         </div>
                     </div>
                 </div>
