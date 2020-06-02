@@ -2,8 +2,20 @@ import Link from 'next/link'
 import Head from 'next/head'
 import { Container } from "reactstrap"
 import styles from './layout.module.css'
+import CookiesManager from '../lib/cookies_manager';
+import { useRouter } from 'next/router';
 
 export default function Layout({ title, children, selected }) {
+    const router = useRouter()
+
+    const handleLogOut = (e) => {
+        const cookiesManager = new CookiesManager()
+
+        cookiesManager.destroy('jwt')
+        cookiesManager.destroy('user')
+        router.push('/')
+    }
+
     return (
         <Container fluid>
             <Head>
@@ -27,6 +39,7 @@ export default function Layout({ title, children, selected }) {
                                     </li>
                                 </ul>
                             </div>
+                            <div className={"float-right " + styles.logOutButton} onClick={handleLogOut}>Log out</div>
                         </nav>
                         <div className="text-center">
                             <h1>{title}</h1>
