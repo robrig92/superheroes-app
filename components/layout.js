@@ -13,7 +13,7 @@ export default function Layout({ title, children, selected }) {
 
         cookiesManager.destroy('jwt')
         cookiesManager.destroy('user')
-        router.push('/')
+        router.push('/login')
     }
 
     return (
