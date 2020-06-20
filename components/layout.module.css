@@ -6,3 +6,36 @@
     cursor: pointer;
     color: #ffffff;
 }
+
+.sidebarContainer {
+    padding-left: 0px!important;
+}
+
+.sidebar {
+    background-color: #212529;
+    height: 100vh;
+}
+
+.sidebarList {
+    padding-inline-start: 0px!important;
+}
+
+.active {
+    background-color: #5a5a5a;
+}
+
+.sideBarItem {
+    color: #cccccc;
+    list-style: none;
+    padding: 16px;
+    width: 100%;
+}
+
+.sideBarItem:hover {
+    background-color: #5a5a5a;
+}
+
+.navLink {
+    color: #ffffff!important;
+    margin-left: 16px;
+}

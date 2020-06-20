@@ -16,41 +16,38 @@ export default function Layout({ title, children, selected }) {
         router.push('/login')
     }
 
+    console.log(selected)
+
     return (
-        <Container fluid>
+        <Container fluid className={styles.fullWidth}>
             <Head>
                 <title>Heroes app</title>
             </Head>
-            <div>
-                <div className="row">
-                    <div className={"col-12 " + styles.fullWidth}>
-                        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                            <Link href="/"><a className="navbar-brand">Home</a></Link>
-                            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                                <span className="navbar-toggler-icon"></span>
-                            </button>
-                            <div className="collapse navbar-collapse" id="navbarNav">
-                                <ul className="navbar-nav">
-                                    <li className={"nav-item " + (selected === 'heroes' ? 'active' : '')}>
-                                        <Link href="/heroes"><a className="nav-link" >Heroes <span className="sr-only">(current)</span></a></Link>
-                                    </li>
-                                    <li className={"nav-item " + (selected === 'powers' ? 'active' : '')}>
-                                        <Link href="/powers"><a className="nav-link" >Powers <span className="sr-only">(current)</span></a></Link>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className={"float-right " + styles.logOutButton} onClick={handleLogOut}>Log out</div>
-                        </nav>
-                        <div className="text-center">
-                            <h1>{title}</h1>
-                            <hr/>
-                        </div>
-                    </div>
+            <div className="row">
+                <div className={`col-12 col-md-3 col-lg-2 ${styles.sidebarContainer}`}>
+                    <nav className={styles.sidebar}>
+                        <ul className={`${styles.sidebarList}`}>
+                            <li className={`${styles.sideBarItem} ${selected === undefined ? styles.active : ''}`}>
+                                <Link href="/"><a className={styles.navLink}>Home</a></Link>
+                            </li>
+                            <li className={`${styles.sideBarItem} ${selected === 'heroes' ? styles.active : ''}`}>
+                                <Link href="/heroes"><a className={styles.navLink}>Heroes</a></Link>
+                            </li>
+                            <li className={`${styles.sideBarItem} ${selected === 'powers' ? styles.active : ''}`}>
+                                <Link href="/powers"><a className={styles.navLink}>Powers</a></Link>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
-                <div className="row">
-                    <div className="col-12">
+                <div className="col-12 col-md-9 col-lg-10 mt-3">
+                    <Container>
+                        <div className="text-center">
+                            <hr />
+                            <h1>{title ?? 'Home'}</h1>
+                            <hr />
+                        </div>
                         {children}
-                    </div>
+                    </Container>
                 </div>
             </div>
         </Container>
