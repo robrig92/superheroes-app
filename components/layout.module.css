@@ -39,3 +39,15 @@
     color: #ffffff!important;
     margin-left: 16px;
 }
+
+.logOutButtonContainer {
+    position: absolute;
+    bottom: 10px;
+    padding-left: 16px;
+}
+
+.logOutButton {
+    cursor: pointer;
+    color: #ffffff!important;
+    margin-left: 16px;
+}
