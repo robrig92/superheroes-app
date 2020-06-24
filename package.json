@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "nodemon server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js"
+    "start": "NODE_ENV=production node server.js",
+    "compile-styles": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 ./scss/custom.scss ./public/css/styles.css"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -22,5 +23,9 @@
     "react-multi-select-component": "^2.0.4",
     "reactstrap": "^8.4.1",
     "sweetalert2": "^9.10.12"
+  },
+  "devDependencies": {
+    "clean-css-cli": "^4.3.0",
+    "node-sass": "^4.14.1"
   }
 }
