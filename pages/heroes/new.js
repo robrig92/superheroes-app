@@ -1,10 +1,11 @@
-import { useRouter } from "next/router";
-import Swal from 'sweetalert2';
+import { useRouter } from "next/router"
+import Swal from 'sweetalert2'
 import Form from "../../components/heroes/form"
 import Layout from '../../components/layout'
 import RequestHandler from '../../lib/request_handler'
 import ResponseHandler from '../../lib/response_handler'
 import CookiesManager from '../../lib/cookies_manager'
+import AlertManager from '../../lib/alert_manager'
 
 export default function New({ heroe, powers }) {
     const router = useRouter()
@@ -13,33 +14,18 @@ export default function New({ heroe, powers }) {
         const cookiesManager = new CookiesManager()
         const jwt = cookiesManager.get('jwt')
         let headers = RequestHandler.addJwtToHeaders({}, jwt)
-
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-primary',
-                cancelButton: 'btn btn-secondary'
-            },
-            buttonsStyling: false
-        })
+        const alertManager = new AlertManager()
 
         RequestHandler.post('/heroes', heroe, { headers })
             .then((response) => {
                 let createdHeroe = response.data.data.heroe
 
-                swalWithBootstrapButtons.fire({
-                    icon: 'success',
-                    title: 'Created!',
-                    text: 'The heroe has been created'
-                })
+                alertManager.success('Created!', 'The heroe has been created')
 
                 router.push(`/heroes/edit/${createdHeroe.id}`)
             })
             .catch((error) => {
-                swalWithBootstrapButtons.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!'
-                })
+                alertManager.error('Oops...', 'Something went wrong!')
             })
     }
 
