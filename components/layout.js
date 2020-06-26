@@ -15,7 +15,8 @@ import {
 
 export default function Layout({ title, children, selected }) {
     const router = useRouter()
-    const [displayMenu, setDisplayMenu] = useState(true);
+    const cookiesManager = new CookiesManager()
+    const [displayMenu, setDisplayMenu] = useState(cookiesManager.get('displayMenu') === undefined || cookiesManager.get('displayMenu') === 'true' ? true : false);
 
     const handleLogOut = (e) => {
         const cookiesManager = new CookiesManager()
@@ -25,29 +26,33 @@ export default function Layout({ title, children, selected }) {
         router.push('/login')
     }
 
+    const handleDisplayMenu = (e) => {
+        const updatedDisplayMenu = !displayMenu
+        setDisplayMenu(updatedDisplayMenu)
+        cookiesManager.set('displayMenu', updatedDisplayMenu)
+    }
+
     const renderMenu = () => {
         if (!displayMenu) {
             return <></>
         }
 
         return (
-            <div className={`col-12 col-md-3 col-lg-2 ${styles.sidebarContainer}`}>
-                <nav className={styles.sidebar}>
-                    <ul className={`${styles.sidebarList}`}>
-                        <li className={`${styles.sideBarItem} ${selected === undefined ? styles.active : ''}`}>
-                            <Link href="/"><a className={styles.navLink}><FaHome size="1.5em"/> Home</a></Link>
-                        </li>
-                        <li className={`${styles.sideBarItem} ${selected === 'heroes' ? styles.active : ''}`}>
-                            <Link href="/heroes"><a className={styles.navLink}><FaMask size="1.5em"/> Heroes</a></Link>
-                        </li>
-                        <li className={`${styles.sideBarItem} ${selected === 'powers' ? styles.active : ''}`}>
-                            <Link href="/powers"><a className={styles.navLink}><FaMagic size="1.5em"/> Powers</a></Link>
-                        </li>
-                        <li className={`${styles.logOutButtonContainer}`}>
-                            <a className={`${styles.logOutButton}`} onClick={handleLogOut}><FaSignOutAlt size="1.2em"/> Log out</a>
-                        </li>
-                    </ul>
-                </nav>
+            <div className={`col-12 col-md-3 col-lg-2 ${styles.sidebarContainer} ${styles.sidebar}`}>
+                <ul className={`${styles.sidebarList}`}>
+                    <li className={`${styles.sideBarItem} ${selected === undefined ? styles.active : ''}`}>
+                        <Link href="/"><a className={styles.navLink}><FaHome size="1.5em"/> Home</a></Link>
+                    </li>
+                    <li className={`${styles.sideBarItem} ${selected === 'heroes' ? styles.active : ''}`}>
+                        <Link href="/heroes"><a className={styles.navLink}><FaMask size="1.5em"/> Heroes</a></Link>
+                    </li>
+                    <li className={`${styles.sideBarItem} ${selected === 'powers' ? styles.active : ''}`}>
+                        <Link href="/powers"><a className={styles.navLink}><FaMagic size="1.5em"/> Powers</a></Link>
+                    </li>
+                    <li className={`${styles.logOutButtonContainer}`}>
+                        <a className={`${styles.logOutButton}`} onClick={handleLogOut}><FaSignOutAlt size="1.2em"/> Log out</a>
+                    </li>
+                </ul>
             </div>
         )
     }
@@ -66,7 +71,7 @@ export default function Layout({ title, children, selected }) {
                             <hr />
                             <div className="row">
                                 <div className="col-1">
-                                    <a onClick={(e) => setDisplayMenu(!displayMenu)} style={{cursor: 'pointer'}}> <FaBars size="1.2em"/> </a>
+                                    <a onClick={handleDisplayMenu} style={{cursor: 'pointer'}}> <FaBars size="1.2em"/> </a>
                                 </div>
                                 <div className="col-11">
                                     <h1>{title ?? 'Home'}</h1>
