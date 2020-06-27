@@ -1,4 +1,3 @@
-import Swal from 'sweetalert2'
 import RequestHandler from '../../lib/request_handler'
 import { useRouter } from 'next/router'
 import {
@@ -9,6 +8,7 @@ import {
 import Layout from '../../components/layout'
 import ResponseHandler from '../../lib/response_handler'
 import CookiesManager from '../../lib/cookies_manager'
+import AlertManager from '../../lib/alert_manager' 
 
 export default function Index({ heroes }) {
     const router = useRouter()
@@ -17,15 +17,10 @@ export default function Index({ heroes }) {
         const cookiesManager = new CookiesManager()
         const jwt = cookiesManager.get('jwt')
         let headers = RequestHandler.addJwtToHeaders({}, jwt)
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-secondary',
-                cancelButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-        })
+        const alertManager = new AlertManager()
+        const customSwal = alertManager.customInvertedSwal()
 
-        swalWithBootstrapButtons.fire({
+        customSwal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
             icon: 'warning',
@@ -37,19 +32,11 @@ export default function Index({ heroes }) {
             if (result.value) {
                 RequestHandler.delete(`heroes/${id}`, { headers })
                     .then((response) => {
-                        swalWithBootstrapButtons.fire(
-                            'Deleted!',
-                            'The heroe has been deleted.',
-                            'success'
-                        )
+                        alertManager.success('Deleted!', 'The heroe has been deleted')
                         router.push('/heroes')
                     })
                     .catch((error) => {
-                        swalWithBootstrapButtons.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!'
-                        })
+                        alertManager.error('Oops...', 'Something went wrong!')
                     })
             }
         })
