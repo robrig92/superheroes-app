@@ -1,11 +1,11 @@
 import Head from 'next/head'
-import Swal from 'sweetalert2';
 import styles from './index.module.css'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import CookiesManager from '../../lib/cookies_manager'
 import RequestHandler from '../../lib/request_handler'
 import ResponseHander from '../../lib/response_handler'
+import AlertManager from '../../lib/alert_manager'
 
 export default function Login () {
     const router = useRouter()
@@ -47,13 +47,7 @@ export default function Login () {
     const handleSignUpSubmit = (e) => {
         e.preventDefault()
         let { name, username, password, email } = signUp
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-primary',
-                cancelButton: 'btn btn-secondary'
-            },
-            buttonsStyling: false
-        })
+        const alertManager = new AlertManager()
 
         RequestHandler.post('/users', {
             name,
@@ -61,11 +55,7 @@ export default function Login () {
             password,
             email
         }).then((response) => {
-            swalWithBootstrapButtons.fire({
-                icon: 'success',
-                title: 'Created!',
-                text: 'The account has been created'
-            })
+            alertManager.success('Created!', 'The account has been created')
             setSignUp({})
         }).catch((err) => {
             // Do something

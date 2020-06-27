@@ -1,5 +1,4 @@
 import { useRouter } from "next/router"
-import Swal from 'sweetalert2'
 import Form from "../../components/heroes/form"
 import Layout from '../../components/layout'
 import RequestHandler from '../../lib/request_handler'

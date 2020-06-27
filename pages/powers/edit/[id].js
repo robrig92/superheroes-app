@@ -1,9 +1,9 @@
-import Swal from 'sweetalert2'
 import Layout from "../../../components/layout"
 import Form from "../../../components/powers/form"
 import RequestHandler from '../../../lib/request_handler'
 import ResponseHandler from '../../../lib/response_handler'
 import CookiesManager from '../../../lib/cookies_manager'
+import AlertManager from '../../../lib/alert_manager'
 
 const handleSubmit = (event, power) => {
     event.preventDefault()
@@ -11,28 +11,14 @@ const handleSubmit = (event, power) => {
     const cookiesManager = new CookiesManager()
     const jwt = cookiesManager.get('jwt')
     let headers = RequestHandler.addJwtToHeaders({}, jwt)
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-secondary'
-        },
-        buttonsStyling: false
-    })
+    const alertManager = new AlertManager()
 
     RequestHandler.put(`powers/${power.id}`, { name: power.name }, { headers})
         .then((response) => {
-            swalWithBootstrapButtons.fire({
-                icon: 'success',
-                title: 'Updated!',
-                text: 'The power has been updated!'
-            })
+            alertManager.success('Updated!', ' The power has been updated!')
         })
         .catch((error) => {
-            swalWithBootstrapButtons.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong!'
-            })
+            alertManager.error('Oops...', 'Something went wrong')
         })
 }
 

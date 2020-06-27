@@ -1,4 +1,3 @@
-import Swal from 'sweetalert2'
 import { useRouter } from 'next/router'
 import Layout from '../../components/layout'
 import CookiesManager from '../../lib/cookies_manager'
@@ -9,6 +8,7 @@ import {
     DeleteButton,
     AddButton
 } from '../../components/forms/buttons'
+import AlertManager from '../../lib/alert_manager'
 
 export default function Index({ powers }) {
     const router = useRouter();
@@ -17,14 +17,8 @@ export default function Index({ powers }) {
         const cookiesManager = new CookiesManager()
         let jwt = cookiesManager.get('jwt')
         let headers = RequestHandler.addJwtToHeaders({}, jwt)
-
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-secondary',
-                cancelButton: 'btn btn-primary'
-            },
-            buttonsStyling: false
-        })
+        const alertManager = new AlertManager()
+        const swalWithBootstrapButtons = alertManager.customInvertedSwal()
 
         swalWithBootstrapButtons.fire({
             title: 'Are you sure?',
@@ -38,19 +32,11 @@ export default function Index({ powers }) {
             if (result.value) {
                 RequestHandler.delete(`http://localhost:3001/powers/${id}`, { headers })
                     .then((response) => {
-                        swalWithBootstrapButtons.fire(
-                            'Deleted!',
-                            'The power has been deleted.',
-                            'success'
-                        )
+                        alertManager.success('Deleted!', 'The power has been deleted')
                         router.push('/powers')
                     })
                     .catch((error) => {
-                        swalWithBootstrapButtons.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!'
-                        })
+                        alertManager.error('Oops...', 'Somwthing went wrong!')
                     })
             }
         })
