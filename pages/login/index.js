@@ -12,6 +12,8 @@ export default function Login () {
     const [ signUp, setSignUp ] = useState({})
     const [ loginUsername, setLoginUsername ] = useState('')
     const [ loginPassword, setLoginPassword ] = useState('')
+    const [ signUpErrors, setSignUpErrors ] = useState({})
+    const [ signInError, setSignInError ] = useState('')
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -27,10 +29,11 @@ export default function Login () {
 
             cookiesManager.set('jwt', jwt)
             cookiesManager.set('user', user)
+            setSignInError('')
 
             router.push('/')
         }).catch((err) => {
-            // Do something...
+            setSignInError(`Invalid credentials`)
         })
     }
 
@@ -58,8 +61,26 @@ export default function Login () {
             alertManager.success('Created!', 'The account has been created')
             setSignUp({})
         }).catch((err) => {
-            // Do something
+            const { errors } = err.response.data.err
+            const mappedErrors = errors.forEach((error) => {
+                setSignUpErrors({
+                    ...signUpErrors,
+                    [error.path]: {
+                        'message': error.message,
+                        'value': error.value
+                    }
+                })
+            })
+            alertManager.error('Oops...', 'Somwthing went wrong!')
         })
+    }
+
+    const renderError = (field) => {
+        if (signUpErrors.hasOwnProperty(field)) {
+            return <span className={`${styles.errorLabel}`}>{ signUpErrors[field].message }</span>
+        }
+
+        return null
     }
 
     return (
@@ -79,6 +100,7 @@ export default function Login () {
                                     </div>
                                     <div className="form-group">
                                         <input name="password" className="form-control" placeholder="Password" type="password" value={loginPassword} onChange={handleLoginPasswordOnChange} />
+                                        {signInError !== '' && <span className={`${styles.errorLabel}`}>{ signInError }</span> }
                                     </div>
                                     <div className="text-center">
                                         <input type="submit" className={"btn btn-primary " + styles.fullWidthButton } value="Log in!" />
@@ -94,16 +116,20 @@ export default function Login () {
                             <h4 className="text-center">Don't have an account? Sign up here!</h4>
                             <form onSubmit={handleSignUpSubmit}>
                                 <div className="form-group">
-                                    <input name="name" className="form-control" placeholder="Name" type="text" value={signUp.name || ''} onChange={(e) => setSignUp({...signUp, name: e.target.value})} />
+                                    <input name="name" className="form-control" placeholder="Name" type="text" value={signUp.name || ''} onChange={(e) => setSignUp({...signUp, name: e.target.value})} required />
+                                    {renderError('name')}
                                 </div>
                                 <div className="form-group">
-                                    <input name="username" className="form-control" placeholder="Username" type="text" value={signUp.username || ''} onChange={(e) => setSignUp({ ...signUp, username: e.target.value })} />
+                                    <input name="username" className="form-control" placeholder="Username" type="text" value={signUp.username || ''} onChange={(e) => setSignUp({ ...signUp, username: e.target.value })} required />
+                                    {renderError('username')}
                                 </div>
                                 <div className="form-group">
-                                    <input name="email" className="form-control" placeholder="E-mail" type="email" value={signUp.email || ''} onChange={(e) => setSignUp({ ...signUp, email: e.target.value })} />
+                                    <input name="email" className="form-control" placeholder="E-mail" type="email" value={signUp.email || ''} onChange={(e) => setSignUp({ ...signUp, email: e.target.value })} required/>
+                                    {renderError('email')}
                                 </div>
                                 <div className="form-group">
-                                    <input name="password" className="form-control" placeholder="Password" type="password" value={signUp.password || ''} onChange={(e) => setSignUp({ ...signUp, password: e.target.value })} />
+                                    <input name="password" className="form-control" placeholder="Password" type="password" value={signUp.password || ''} onChange={(e) => setSignUp({ ...signUp, password: e.target.value })} required />
+                                    {renderError('password')}
                                 </div>
                                 <div className="text-center">
                                     <input type="submit" className={"btn btn-primary " + styles.fullWidthButton} value="Sign up!" />
