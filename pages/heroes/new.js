@@ -1,4 +1,3 @@
-import { useRouter } from "next/router"
 import Form from "../../components/heroes/form"
 import Layout from '../../components/layout'
 import RequestHandler from '../../lib/request_handler'
@@ -7,9 +6,7 @@ import CookiesManager from '../../lib/cookies_manager'
 import AlertManager from '../../lib/alert_manager'
 
 export default function New({ heroe, powers }) {
-    const router = useRouter()
-
-    const handleSubmit = (event, heroe) => {
+    const handleSubmit = (event, heroe, setHeroe, setSelected) => {
         const cookiesManager = new CookiesManager()
         const jwt = cookiesManager.get('jwt')
         let headers = RequestHandler.addJwtToHeaders({}, jwt)
@@ -21,7 +18,8 @@ export default function New({ heroe, powers }) {
 
                 alertManager.success('Created!', 'The heroe has been created')
 
-                router.push(`/heroes/edit/${createdHeroe.id}`)
+                setHeroe({}) 
+                setSelected([])
             })
             .catch((error) => {
                 alertManager.error('Oops...', 'Something went wrong!')

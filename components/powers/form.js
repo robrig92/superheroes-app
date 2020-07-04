@@ -14,7 +14,7 @@ export default function Form({ power, handleSubmit }) {
 
     return(
         <Container>
-            <form onSubmit={(e) => handleSubmit(e, currentPower)}>
+            <form onSubmit={(e) => handleSubmit(e, currentPower, setPower)}>
                 <div className="form-group">
                     <label htmlFor="name">Name</label>
                     <input className="form-control" name="name" aria-describedby="nameHelp" value={currentPower.name || ''} onChange={e => handleOnChange(e, currentPower, setPower)} />

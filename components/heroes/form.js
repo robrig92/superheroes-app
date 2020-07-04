@@ -16,7 +16,7 @@ export default function Form({ heroe, powers, handleSubmit }) {
             powers
         }
 
-        handleSubmit(event, heroe)
+        handleSubmit(event, heroe, setHeroe, setSelected)
     }
 
     const handleNameOnChange = (event) => {

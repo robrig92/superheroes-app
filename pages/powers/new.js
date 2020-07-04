@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import Layout from "../../components/layout"
 import Form from '../../components/powers/form'
 import RequestHandler from '../../lib/request_handler'
@@ -7,9 +6,7 @@ import ResponseHandler from '../../lib/response_handler'
 import AlertManager from '../../lib/alert_manager'
 
 export default function New() {
-    const router = useRouter()
-
-    const handleSubmit = (event, power) => {
+    const handleSubmit = (event, power, setPower) => {
         event.preventDefault()
 
         const cookiesManager = new CookiesManager()
@@ -23,7 +20,7 @@ export default function New() {
                 let power = responseHandler.data.power
 
                 alertManager.success('Created!', 'The power has been created!')
-                router.push(`/powers/edit/${power.id}`)
+                setPower({})
             })
             .catch((error) => {
                 alertManager.error('Oops...', 'Something went wrong!')
