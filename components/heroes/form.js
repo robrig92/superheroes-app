@@ -39,7 +39,7 @@ export default function Form({ heroe, powers, handleSubmit }) {
         <Container>
             <form onSubmit={(e) => handlingSubmit(e)}>
                 <div className="row">
-                    <div className="col-12 offset-md-4 col-md-4">
+                    <div className="col-12 offset-md-4 col-md-4 text-center">
                         <PhotoContainer filePath={currentHeroe.filePath} />
                     </div>
                 </div>
