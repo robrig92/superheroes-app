@@ -13,10 +13,15 @@ export default function Form({ heroe, powers, handleSubmit }) {
         let powers = selected.map((power) => power.value)
         let heroe = {
             ...currentHeroe,
-            powers
+            powers,
         }
 
         handleSubmit(event, heroe, setHeroe, setSelected)
+    }
+
+    const handlePhotoOnChange = (event) => {
+        let photo = event.target.files[0]
+        setHeroe({...currentHeroe, photo})
     }
 
     const handleNameOnChange = (event) => {
@@ -64,7 +69,17 @@ export default function Form({ heroe, powers, handleSubmit }) {
                         </div>
                     </div>
                 </div>
-                <div className="form-group text-right">
+                <div className="row">
+                   <div className="col-12">
+                        <label htmlFor="photo">Photo</label>
+                        <div className="custom-file">
+                            <input type="file" className="custom-file-input" id="photo" onChange={handlePhotoOnChange} />
+                            <label className="custom-file-label" htmlFor="photo">{currentHeroe.photo ? currentHeroe.photo.name : 'Select a file'}</label>
+                        </div> 
+                        {heroe.filePath && <label>There is a file uploaded</label>}
+                   </div> 
+                </div>
+                <div className="form-group text-right mt-2">
                     <SaveButton/>
                     <SimpleBackButton href="/heroes"/>
                 </div>

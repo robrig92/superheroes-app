@@ -15,8 +15,14 @@ export default function Edit({ heroe, powers }) {
         const jwt = cookiesManager.get('jwt')
         let headers = RequestHandler.addJwtToHeaders({}, jwt)
         const alertManager = new AlertManager()
+        let formData = new FormData()
 
-        RequestHandler.put(`heroes/${heroe.id}`, heroe, { headers })
+        formData.set('name', heroe.name)
+        formData.set('age', heroe.age)
+        formData.set('powers', heroe.powers)
+        formData.append('photo', heroe.photo)
+
+        RequestHandler.put(`heroes/${heroe.id}`, formData, { headers })
         .then((response) => {
             alertManager.success('Updated!', 'The heroe has been created')
 

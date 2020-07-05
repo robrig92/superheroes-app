@@ -12,7 +12,14 @@ export default function New({ heroe, powers }) {
         let headers = RequestHandler.addJwtToHeaders({}, jwt)
         const alertManager = new AlertManager()
 
-        RequestHandler.post('/heroes', heroe, { headers })
+        let formData = new FormData()
+
+        formData.set('name', heroe.name)
+        formData.set('age', heroe.age)
+        formData.set('powers', heroe.powers)
+        formData.append('photo', heroe.photo)
+
+        RequestHandler.post('/heroes', formData, { headers })
             .then((response) => {
                 let createdHeroe = response.data.data.heroe
 
