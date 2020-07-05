@@ -20,7 +20,7 @@ export const FileUpload = ({ nameLabel, handlePhotoOnChange }) => {
     )
 }
 
-export const DisplayPhoto = ({ filePath }) => {
+export const PhotoContainer = ({ filePath }) => {
     if (!filePath) {
         return <></>
     }

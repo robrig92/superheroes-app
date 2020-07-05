@@ -2,7 +2,7 @@ import { Container } from "reactstrap"
 import { useState } from 'react'
 import { SaveButton, SimpleBackButton } from '../forms/buttons'
 import MultiSelect from "react-multi-select-component"
-import { FileUpload, DisplayPhoto } from '../forms/file'
+import { FileUpload, PhotoContainer } from '../forms/file'
 
 export default function Form({ heroe, powers, handleSubmit }) {
     const [currentHeroe, setHeroe] = useState({...heroe})
@@ -40,7 +40,7 @@ export default function Form({ heroe, powers, handleSubmit }) {
             <form onSubmit={(e) => handlingSubmit(e)}>
                 <div className="row">
                     <div className="col-12 offset-md-4 col-md-4">
-                        <DisplayPhoto filePath={currentHeroe.filePath} />
+                        <PhotoContainer filePath={currentHeroe.filePath} />
                     </div>
                 </div>
                 <div className="row">
