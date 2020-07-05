@@ -2,6 +2,7 @@ import { Container } from "reactstrap"
 import { useState } from 'react'
 import { SaveButton, SimpleBackButton } from '../forms/buttons';
 import MultiSelect from "react-multi-select-component";
+import { FileUpload } from '../forms/file';
 
 export default function Form({ heroe, powers, handleSubmit }) {
     const [currentHeroe, setHeroe] = useState({...heroe})
@@ -13,10 +14,15 @@ export default function Form({ heroe, powers, handleSubmit }) {
         let powers = selected.map((power) => power.value)
         let heroe = {
             ...currentHeroe,
-            powers
+            powers,
         }
 
         handleSubmit(event, heroe, setHeroe, setSelected)
+    }
+
+    const handlePhotoOnChange = (event) => {
+        let photo = event.target.files[0]
+        setHeroe({...currentHeroe, photo})
     }
 
     const handleNameOnChange = (event) => {
@@ -64,7 +70,12 @@ export default function Form({ heroe, powers, handleSubmit }) {
                         </div>
                     </div>
                 </div>
-                <div className="form-group text-right">
+                <FileUpload
+                    nameLabel={currentHeroe.photo ? currentHeroe.photo.name : 'Select a file'}
+                    handlePhotoOnChange={handlePhotoOnChange}
+                    filePath={currentHeroe.filePath}
+                />
+                <div className="form-group text-right mt-2">
                     <SaveButton/>
                     <SimpleBackButton href="/heroes"/>
                 </div>
