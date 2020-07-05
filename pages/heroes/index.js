@@ -1,14 +1,11 @@
 import RequestHandler from '../../lib/request_handler'
 import { useRouter } from 'next/router'
-import {
-    AddButton,
-    EditButton,
-    DeleteButton
-} from '../../components/forms/buttons'
+import { AddButton } from '../../components/forms/buttons'
 import Layout from '../../components/layout'
 import ResponseHandler from '../../lib/response_handler'
 import CookiesManager from '../../lib/cookies_manager'
 import AlertManager from '../../lib/alert_manager' 
+import GridHeroe from '../../components/heroes/grid'
 
 export default function Index({ heroes }) {
     const router = useRouter()
@@ -51,33 +48,7 @@ export default function Index({ heroes }) {
             </div>
             <div className="row mt-2">
                 <div className="col-12">
-                    <table className="table table-striped">
-                        <thead className="thead-dark">
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Age</th>
-                                <th>Powers</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {heroes.map((heroe) => {
-                                return (
-                                    <tr key={heroe.id}>
-                                        <td>{heroe.id}</td>
-                                        <td>{heroe.name}</td>
-                                        <td>{heroe.age}</td>
-                                        <td>{heroe.powers.map((power) => power.name).join(', ')}</td>
-                                        <td className="text-right">
-                                            <EditButton href="/heroes/edit/[id]" as={`/heroes/edit/${heroe.id}`}/>
-                                            <DeleteButton id={heroe.id} handleDelete={handleDelete}/>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
+                    <GridHeroe heroes={heroes} handleDelete={handleDelete}/>
                 </div>
             </div>
         </Layout>
