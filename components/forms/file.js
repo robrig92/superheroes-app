@@ -21,7 +21,6 @@ export const FileUpload = ({ nameLabel, handlePhotoOnChange }) => {
 }
 
 export const DisplayPhoto = ({ filePath }) => {
-    console.log(filePath)
     if (!filePath) {
         return <></>
     }
