@@ -1,8 +1,8 @@
 import { Container } from "reactstrap"
 import { useState } from 'react'
-import { SaveButton, SimpleBackButton } from '../forms/buttons';
-import MultiSelect from "react-multi-select-component";
-import { FileUpload } from '../forms/file';
+import { SaveButton, SimpleBackButton } from '../forms/buttons'
+import MultiSelect from "react-multi-select-component"
+import { FileUpload, DisplayPhoto } from '../forms/file'
 
 export default function Form({ heroe, powers, handleSubmit }) {
     const [currentHeroe, setHeroe] = useState({...heroe})
@@ -39,6 +39,11 @@ export default function Form({ heroe, powers, handleSubmit }) {
         <Container>
             <form onSubmit={(e) => handlingSubmit(e)}>
                 <div className="row">
+                    <div className="col-12 offset-md-4 col-md-4">
+                        <DisplayPhoto filePath={currentHeroe.filePath} />
+                    </div>
+                </div>
+                <div className="row">
                     <div className="col-12">
                         <div className="form-group">
                             <label htmlFor="name">Name</label>
@@ -70,11 +75,14 @@ export default function Form({ heroe, powers, handleSubmit }) {
                         </div>
                     </div>
                 </div>
-                <FileUpload
-                    nameLabel={currentHeroe.photo ? currentHeroe.photo.name : 'Select a file'}
-                    handlePhotoOnChange={handlePhotoOnChange}
-                    filePath={currentHeroe.filePath}
-                />
+                <div className="row">
+                    <div className="col-12">
+                        <FileUpload
+                            nameLabel={currentHeroe.photo ? currentHeroe.photo.name : 'Select a file'}
+                            handlePhotoOnChange={handlePhotoOnChange}
+                        />
+                    </div>
+                </div>
                 <div className="form-group text-right mt-2">
                     <SaveButton/>
                     <SimpleBackButton href="/heroes"/>
