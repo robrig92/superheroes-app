@@ -3,7 +3,7 @@ import {
     DeleteButton
 } from '../../components/forms/buttons'
 
-const GridHeroe = ({ heroes, handleDelete }) => {
+const GridHeroes = ({ heroes, handleDelete }) => {
     return (
         <div className="row">
             <div className="col-12">
@@ -40,4 +40,4 @@ const GridHeroe = ({ heroes, handleDelete }) => {
     )
 }
 
-export default GridHeroe
+export default GridHeroes

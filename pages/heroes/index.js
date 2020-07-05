@@ -5,7 +5,7 @@ import Layout from '../../components/layout'
 import ResponseHandler from '../../lib/response_handler'
 import CookiesManager from '../../lib/cookies_manager'
 import AlertManager from '../../lib/alert_manager' 
-import GridHeroe from '../../components/heroes/grid'
+import GridHeroes from '../../components/heroes/grid'
 
 export default function Index({ heroes }) {
     const router = useRouter()
@@ -48,7 +48,7 @@ export default function Index({ heroes }) {
             </div>
             <div className="row mt-2">
                 <div className="col-12">
-                    <GridHeroe heroes={heroes} handleDelete={handleDelete}/>
+                    <GridHeroes heroes={heroes} handleDelete={handleDelete}/>
                 </div>
             </div>
         </Layout>
