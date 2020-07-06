@@ -6,9 +6,13 @@ import ResponseHandler from '../../lib/response_handler'
 import CookiesManager from '../../lib/cookies_manager'
 import AlertManager from '../../lib/alert_manager' 
 import GridHeroes from '../../components/heroes/grid'
+import Cards from '../../components/heroes/cards'
+import { useState } from 'react'
+import { FaEye } from 'react-icons/fa'
 
 export default function Index({ heroes }) {
     const router = useRouter()
+    const [showMode, setShowMode] = useState('grid')
 
     const handleDelete = (id) => {
         const cookiesManager = new CookiesManager()
@@ -39,16 +43,25 @@ export default function Index({ heroes }) {
         })
     }
 
+    const renderList = (heroes) => {
+        if (showMode === 'grid') {
+            return <GridHeroes heroes={heroes} handleDelete={handleDelete}/>
+        }
+
+        return <Cards heroes={heroes} />
+    }
+
     return (
         <Layout title="Heroes" selected="heroes">
             <div className="row">
                 <div className="col-12 text-right">
+                    <button className="btn btn-primary" onClick={(e) => {setShowMode(showMode === 'grid' ? 'cards' : 'grid')}}><FaEye size="1.2em" /> Change view</button>
                     <AddButton href="/heroes/new" label="Heroe" />
                 </div>
             </div>
             <div className="row mt-2">
                 <div className="col-12">
-                    <GridHeroes heroes={heroes} handleDelete={handleDelete}/>
+                    {renderList(heroes)}
                 </div>
             </div>
         </Layout>
