@@ -48,7 +48,7 @@ export default function Index({ heroes }) {
             return <GridHeroes heroes={heroes} handleDelete={handleDelete}/>
         }
 
-        return <Cards heroes={heroes} />
+        return <Cards heroes={heroes} handleDelete={handleDelete}/>
     }
 
     return (
