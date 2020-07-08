@@ -13,7 +13,7 @@ const Cards = ({ heroes, handleDelete }) => {
                     <div className="card-body">
                         <h5 className="card-title">{heroe.name}</h5>
                         <p className="card-text"><b>Age </b>{heroe.age}</p>
-                        <p className="card-text"><b>Powers </b>{heroe.powers.map((power) => `${power.name}`)}</p>
+                        <p className="card-text"><b>Powers </b>{heroe.powers.map((power) => `${power.name}`).join(', ')}</p>
                         <div className="text-right">
                             <EditButton href="/heroes/edit/[id]" as={`/heroes/edit/${heroe.id}`} />
                             <DeleteButton id={heroe.id} handleDelete={handleDelete} />
