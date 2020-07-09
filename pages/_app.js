@@ -1,23 +1,22 @@
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 import '../node_modules/jquery/dist/jquery'
 import '../public/css/styles.css'
 
 export default function App({ Component, pageProps }) {
     const router = useRouter()
 
-    useEffect(() => {
+    if (typeof window !== 'undefined') {
         let jwt = Cookies.get('jwt')
-
+    
         if ((jwt === undefined || !jwt) && router.route !== '/login') {
             router.push('/login')
         }
-
+    
         if (router.route === '/login' && jwt) {
             router.push('/')
         }
-    })
+    }
 
     return (
         <Component {...pageProps} />
