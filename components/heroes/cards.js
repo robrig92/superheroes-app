@@ -5,7 +5,7 @@ import {
 
 const Cards = ({ heroes, handleDelete }) => {
     const renderCard = (heroe) => {
-        const photoUrl = heroe.filePath.replace('server/storage', 'http://localhost:3001/');
+        const photoUrl = heroe.filePath ? heroe.filePath.replace('server/storage', 'http://localhost:3001/') : '';
         return (
             <div className="col-12 col-md-4 mb-2" key={heroe.id}>
                 <div className="card">
