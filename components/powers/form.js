@@ -22,7 +22,7 @@ export default function Form({ power, handleSubmit }) {
                 </div>
                 <div className="form-group text-right">
                     <SaveButton/>
-                    <SimpleBackButton href="/powers" />
+                    <SimpleBackButton href="/admin/powers" />
                 </div>
             </form>
         </Container>

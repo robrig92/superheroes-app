@@ -1,12 +1,12 @@
-import RequestHandler from '../../lib/request_handler'
+import RequestHandler from '../../../lib/request_handler'
 import { useRouter } from 'next/router'
-import { AddButton } from '../../components/forms/buttons'
-import Layout from '../../components/layout'
-import ResponseHandler from '../../lib/response_handler'
-import CookiesManager from '../../lib/cookies_manager'
-import AlertManager from '../../lib/alert_manager' 
-import GridHeroes from '../../components/heroes/grid'
-import Cards from '../../components/heroes/cards'
+import { AddButton } from '../../../components/forms/buttons'
+import Layout from '../../../components/layout'
+import ResponseHandler from '../../../lib/response_handler'
+import CookiesManager from '../../../lib/cookies_manager'
+import AlertManager from '../../../lib/alert_manager' 
+import GridHeroes from '../../../components/heroes/grid'
+import Cards from '../../../components/heroes/cards'
 import { useState } from 'react'
 import { FaEye } from 'react-icons/fa'
 
@@ -34,7 +34,7 @@ export default function Index({ heroes }) {
                 RequestHandler.delete(`heroes/${id}`, { headers })
                     .then((response) => {
                         alertManager.success('Deleted!', 'The heroe has been deleted')
-                        router.push('/heroes')
+                        router.push('/admin/heroes')
                     })
                     .catch((error) => {
                         alertManager.error('Oops...', 'Something went wrong!')
@@ -56,7 +56,7 @@ export default function Index({ heroes }) {
             <div className="row">
                 <div className="col-12 text-right">
                     <button className="btn btn-primary" onClick={(e) => {setShowMode(showMode === 'grid' ? 'cards' : 'grid')}}><FaEye size="1.2em" /> Change view</button>
-                    <AddButton href="/heroes/new" label="Heroe" />
+                    <AddButton href="/admin/heroes/new" label="Heroe" />
                 </div>
             </div>
             <div className="row mt-2">

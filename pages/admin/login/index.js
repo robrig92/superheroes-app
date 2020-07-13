@@ -2,10 +2,10 @@ import Head from 'next/head'
 import styles from './index.module.css'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import CookiesManager from '../../lib/cookies_manager'
-import RequestHandler from '../../lib/request_handler'
-import ResponseHander from '../../lib/response_handler'
-import AlertManager from '../../lib/alert_manager'
+import CookiesManager from '../../../lib/cookies_manager'
+import RequestHandler from '../../../lib/request_handler'
+import ResponseHander from '../../../lib/response_handler'
+import AlertManager from '../../../lib/alert_manager'
 
 export default function Login () {
     const router = useRouter()
@@ -31,7 +31,7 @@ export default function Login () {
             cookiesManager.set('user', user)
             setSignInError('')
 
-            router.push('/')
+            router.push('/admin')
         }).catch((err) => {
             setSignInError(`Invalid credentials`)
         })

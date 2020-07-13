@@ -23,7 +23,7 @@ export default function Layout({ title, children, selected }) {
 
         cookiesManager.destroy('jwt')
         cookiesManager.destroy('user')
-        router.push('/login')
+        router.push('/admin/login')
     }
 
     const handleDisplayMenu = (e) => {
@@ -41,13 +41,13 @@ export default function Layout({ title, children, selected }) {
             <div className={`col-12 col-md-3 col-lg-2 ${styles.sidebarContainer} ${styles.sidebar}`}>
                 <ul className={`${styles.sidebarList}`}>
                     <li className={`${styles.sideBarItem} ${selected === undefined ? styles.active : ''}`}>
-                        <Link href="/"><a className={styles.navLink}><FaHome size="1.5em"/> Home</a></Link>
+                        <Link href="/admin"><a className={styles.navLink}><FaHome size="1.5em"/> Home</a></Link>
                     </li>
                     <li className={`${styles.sideBarItem} ${selected === 'heroes' ? styles.active : ''}`}>
-                        <Link href="/heroes"><a className={styles.navLink}><FaMask size="1.5em"/> Heroes</a></Link>
+                        <Link href="/admin/heroes"><a className={styles.navLink}><FaMask size="1.5em"/> Heroes</a></Link>
                     </li>
                     <li className={`${styles.sideBarItem} ${selected === 'powers' ? styles.active : ''}`}>
-                        <Link href="/powers"><a className={styles.navLink}><FaMagic size="1.5em"/> Powers</a></Link>
+                        <Link href="/admin/powers"><a className={styles.navLink}><FaMagic size="1.5em"/> Powers</a></Link>
                     </li>
                     <li className={`${styles.logOutButtonContainer}`}>
                         <a className={`${styles.logOutButton}`} onClick={handleLogOut}><FaSignOutAlt size="1.2em"/> Log out</a>

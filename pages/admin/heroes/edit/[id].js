@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router'
-import Layout from "../../../components/layout"
-import Form from "../../../components/heroes/form"
-import RequestHandler from '../../../lib/request_handler'
-import ResponseHandler from '../../../lib/response_handler'
-import CookiesManager from '../../../lib/cookies_manager'
-import AlertManager from '../../../lib/alert_manager'
+import Layout from "../../../../components/layout"
+import Form from "../../../../components/heroes/form"
+import RequestHandler from '../../../../lib/request_handler'
+import ResponseHandler from '../../../../lib/response_handler'
+import CookiesManager from '../../../../lib/cookies_manager'
+import AlertManager from '../../../../lib/alert_manager'
 
 export default function Edit({ heroe, powers }) {
     const router = useRouter()
@@ -20,13 +20,16 @@ export default function Edit({ heroe, powers }) {
         formData.set('name', heroe.name)
         formData.set('age', heroe.age)
         formData.set('powers', heroe.powers)
-        formData.append('photo', heroe.photo)
+
+        if (heroe.photo) {
+            formData.append('photo', heroe.photo)
+        }
 
         RequestHandler.put(`heroes/${heroe.id}`, formData, { headers })
         .then((response) => {
             alertManager.success('Updated!', 'The heroe has been created')
 
-            router.push(`/heroes`)
+            router.push(`/admin/heroes`)
         })
         .catch((error) => {
             alertManager.error('Oops...', 'Something went wrong!')

@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router'
-import Layout from '../../components/layout'
-import CookiesManager from '../../lib/cookies_manager'
-import RequestHandler from '../../lib/request_handler'
-import ResponseHandler from '../../lib/response_handler'
+import Layout from '../../../components/layout'
+import CookiesManager from '../../../lib/cookies_manager'
+import RequestHandler from '../../../lib/request_handler'
+import ResponseHandler from '../../../lib/response_handler'
 import {
     EditButton,
     DeleteButton,
     AddButton
-} from '../../components/forms/buttons'
-import AlertManager from '../../lib/alert_manager'
+} from '../../../components/forms/buttons'
+import AlertManager from '../../../lib/alert_manager'
 
 export default function Index({ powers }) {
     const router = useRouter();
@@ -33,7 +33,7 @@ export default function Index({ powers }) {
                 RequestHandler.delete(`http://localhost:3001/powers/${id}`, { headers })
                     .then((response) => {
                         alertManager.success('Deleted!', 'The power has been deleted')
-                        router.push('/powers')
+                        router.push('/admin/powers')
                     })
                     .catch((error) => {
                         alertManager.error('Oops...', 'Somwthing went wrong!')
@@ -46,7 +46,7 @@ export default function Index({ powers }) {
         <Layout title="Powers" selected="powers">
             <div className="row">
                 <div className="col-12 text-right">
-                    <AddButton href="/powers/new" label="Power"/>
+                    <AddButton href="/admin/powers/new" label="Power"/>
                 </div>
             </div>
             <div className="row mt-2">
@@ -66,7 +66,7 @@ export default function Index({ powers }) {
                                         <td>{power.id}</td>
                                         <td>{power.name}</td>
                                         <td className="text-right">
-                                            <EditButton href="/powers/edit/[id]" as={`/powers/edit/${power.id}`} />
+                                            <EditButton href="/admin/powers/edit/[id]" as={`/admin/powers/edit/${power.id}`} />
                                             <DeleteButton handleDelete={handleDelete} id={power.id} />
                                         </td>
                                     </tr>

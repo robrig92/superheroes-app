@@ -26,7 +26,7 @@ const GridHeroes = ({ heroes, handleDelete }) => {
                                     <td>{heroe.age}</td>
                                     <td>{heroe.powers.map((power) => power.name).join(', ')}</td>
                                     <td className="text-right">
-                                        <EditButton href="/heroes/edit/[id]" as={`/heroes/edit/${heroe.id}`}/>
+                                        <EditButton href="/admin/heroes/edit/[id]" as={`/admin/heroes/edit/${heroe.id}`}/>
                                         <DeleteButton id={heroe.id} handleDelete={handleDelete}/>
                                     </td>
                                 </tr>

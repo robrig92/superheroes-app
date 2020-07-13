@@ -13,7 +13,7 @@ const Cards = ({ heroes, handleDelete, mode }) => {
 
         return (
             <div className="text-right mb-2">
-                <EditButton href="/heroes/edit/[id]" as={`/heroes/edit/${heroe.id}`} />
+                <EditButton href="/admin/heroes/edit/[id]" as={`/admin/heroes/edit/${heroe.id}`} />
                 <DeleteButton id={heroe.id} handleDelete={handleDelete} />
             </div>
         )

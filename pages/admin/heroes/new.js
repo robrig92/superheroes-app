@@ -1,9 +1,9 @@
-import Form from "../../components/heroes/form"
-import Layout from '../../components/layout'
-import RequestHandler from '../../lib/request_handler'
-import ResponseHandler from '../../lib/response_handler'
-import CookiesManager from '../../lib/cookies_manager'
-import AlertManager from '../../lib/alert_manager'
+import Form from "../../../components/heroes/form"
+import Layout from '../../../components/layout'
+import RequestHandler from '../../../lib/request_handler'
+import ResponseHandler from '../../../lib/response_handler'
+import CookiesManager from '../../../lib/cookies_manager'
+import AlertManager from '../../../lib/alert_manager'
 
 export default function New({ heroe, powers }) {
     const handleSubmit = (event, heroe, setHeroe, setSelected) => {
@@ -17,7 +17,10 @@ export default function New({ heroe, powers }) {
         formData.set('name', heroe.name)
         formData.set('age', heroe.age)
         formData.set('powers', heroe.powers)
-        formData.append('photo', heroe.photo)
+
+        if (heroe.photo) {
+            formData.append('photo', heroe.photo)
+        }
 
         RequestHandler.post('/heroes', formData, { headers })
             .then((response) => {

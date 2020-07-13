@@ -1,9 +1,9 @@
-import Layout from "../../components/layout"
-import Form from '../../components/powers/form'
-import RequestHandler from '../../lib/request_handler'
-import CookiesManager from '../../lib/cookies_manager'
-import ResponseHandler from '../../lib/response_handler'
-import AlertManager from '../../lib/alert_manager'
+import Layout from "../../../components/layout"
+import Form from '../../../components/powers/form'
+import RequestHandler from '../../../lib/request_handler'
+import CookiesManager from '../../../lib/cookies_manager'
+import ResponseHandler from '../../../lib/response_handler'
+import AlertManager from '../../../lib/alert_manager'
 
 export default function New() {
     const handleSubmit = (event, power, setPower) => {

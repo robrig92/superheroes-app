@@ -110,7 +110,7 @@ export default function Form({ heroe, powers, handleSubmit }) {
                 {renderScore(currentHeroe.scores || undefined)}
                 <div className="form-group text-right mt-2">
                     <SaveButton/>
-                    <SimpleBackButton href="/heroes"/>
+                    <SimpleBackButton href="/admin/heroes"/>
                 </div>
             </form>
         </Container>
