@@ -1,5 +1,6 @@
 import { Container } from "reactstrap"
 import { useState } from 'react'
+import Rating from 'react-rating'
 import { SaveButton, SimpleBackButton } from '../forms/buttons'
 import MultiSelect from "react-multi-select-component"
 import { FileUpload, PhotoContainer } from '../forms/file'
@@ -33,6 +34,29 @@ export default function Form({ heroe, powers, handleSubmit }) {
     const handleAgeOnChange = (event) => {
         let age = event.target.value
         setHeroe({...currentHeroe, age})
+    }
+
+    const renderScore = (scores) => {
+        if (!scores) {
+            return <></>
+        }
+
+        return (
+            <div className="row">
+                <div className="col-12 mt-3">
+                    <div className="form-group">
+                        <label htmlFor="score">Score</label>
+                        <br/>
+                        <Rating
+                            name="score"
+                            readonly
+                            initialRating={scores.reduce((sum, score) => (sum + score.score), 0) / scores.length}
+                        />
+                        <small id="scoreHelp" className="form-text text-muted">Current heroe score</small>
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     return (
@@ -83,6 +107,7 @@ export default function Form({ heroe, powers, handleSubmit }) {
                         />
                     </div>
                 </div>
+                {renderScore(currentHeroe.scores || undefined)}
                 <div className="form-group text-right mt-2">
                     <SaveButton/>
                     <SimpleBackButton href="/heroes"/>
