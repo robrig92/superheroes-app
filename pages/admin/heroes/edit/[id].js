@@ -11,6 +11,7 @@ export default function Edit({ heroe, powers }) {
 
     const handleSubmit = (event, heroe) => {
         event.preventDefault()
+
         const cookiesManager = new CookiesManager()
         const jwt = cookiesManager.get('jwt')
         let headers = RequestHandler.addJwtToHeaders({}, jwt)
