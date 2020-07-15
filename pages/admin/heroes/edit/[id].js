@@ -19,21 +19,21 @@ export default function Edit({ heroe, powers }) {
 
         formData.set('name', heroe.name)
         formData.set('age', heroe.age)
-        formData.set('powers', heroe.powers)
+        formData.set('powers', JSON.stringify(heroe.powers))
 
         if (heroe.photo) {
             formData.append('photo', heroe.photo)
         }
 
         RequestHandler.put(`heroes/${heroe.id}`, formData, { headers })
-        .then((response) => {
-            alertManager.success('Updated!', 'The heroe has been created')
+            .then((response) => {
+                alertManager.success('Updated!', 'The heroe has been created')
 
-            router.push(`/admin/heroes`)
-        })
-        .catch((error) => {
-            alertManager.error('Oops...', 'Something went wrong!')
-        })
+                router.push(`/admin/heroes`)
+            })
+            .catch((error) => {
+                alertManager.error('Oops...', 'Something went wrong!')
+            })
 
     }
 
