@@ -58,7 +58,7 @@ export default function Layout({ title, children, selected }) {
     }
 
     return (
-        <Container fluid className={styles.fullWidth}>
+        <Container fluid>
             <Head>
                 <title>Heroes app</title>
             </Head>
