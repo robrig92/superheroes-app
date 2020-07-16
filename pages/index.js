@@ -7,7 +7,7 @@ import ResponseHandler from '../lib/response_handler'
 
 export default function ScoreBoard({ heroes }) {
     return (
-        <div clasaName="container-fluid" style={{ minHeight: '100vh', minWidth: '100hw', backgroundColor: '#212121', color: '#ffffff' }}>
+        <div className="container-fluid" style={{ minHeight: '100vh', minWidth: '100hw', backgroundColor: '#212121', color: '#ffffff' }}>
             <div className="row">
                 <div className="col-12">
                     <div className="container" style={{ minHeight: '100vh', backgroundColor: '#212121', color: '#ffffff' }}>
