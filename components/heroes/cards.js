@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Rating from 'react-rating'
+import _ from 'lodash'
 import {
     EditButton,
     DeleteButton
@@ -35,16 +36,37 @@ const Cards = ({ heroes, handleDelete, mode }) => {
     }
 
     const renderScoreModal = () => {
-        if (!renderScoreModal || mode === 'admin') {
+        if (!renderScoreModal || mode === 'admin' || _.isEmpty(currentHeroe)) {
             return <></>
         }
+
+        const photoUrl = currentHeroe.filePath ? currentHeroe.filePath.replace('server/storage', 'http://localhost:3001/') : '';
 
         return (
             <div>
                 <Modal isOpen={modal} toggle={toggle} centered={true}>
-                    <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+                    <ModalHeader toggle={toggle}>Rate to {currentHeroe.name}</ModalHeader>
                     <ModalBody>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        <div className="row">
+                            <div className="col-12 text-center">
+                                <img className="col-12" src={photoUrl} height="600"/>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-12 text-center">
+                                <hr />
+                                <h3>{currentHeroe.name}</h3>
+                                {renderScore(currentHeroe)}
+                                <p className="text-center">Score {getScore(currentHeroe.scores)}</p>
+                                <hr />
+                        </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-12">
+                                <p><b>Age </b>{currentHeroe.age}</p>
+                                <p><b>Powers </b>{currentHeroe.powers.map((power) => `${power.name}`).join(', ')}</p>
+                            </div>
+                        </div>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
@@ -55,6 +77,14 @@ const Cards = ({ heroes, handleDelete, mode }) => {
         )
     }
 
+    const getScore = (scores) => {
+        if (scores.length === 0) {
+            return 0
+        }
+
+        return (scores.reduce((sum, score) => sum + score.score, 0) / scores.length).toFixed(2)
+    }
+
     const renderScore = (heroe) => {
         if (mode !== 'scores') {
             return <></>
@@ -62,13 +92,11 @@ const Cards = ({ heroes, handleDelete, mode }) => {
 
         return (
             <div className="text-center mt-2">
-                <hr />
                 <Rating
                     name="score"
-                    initialRating={(heroe.scores.reduce((sum, score) => sum + score.score, 0) / heroe.scores.length)}
+                    initialRating={getScore(heroe.scores)}
                     readonly
                 />
-                <hr />
             </div>
         )
     }
@@ -79,9 +107,15 @@ const Cards = ({ heroes, handleDelete, mode }) => {
             <div className="col-12 col-md-4 mb-2" key={heroe.id}>
                 <div className="card" style={{minHeight: '520px', maxHeight: '520px'}} onClick={e => handleClick(e, heroe)}>
                     <img src={photoUrl} height="250" className="card-img-top" alt="..." />
-                    {renderScore(heroe)}
+                    <div className="row">
+                        <div className="col-12 text-center">
+                            <hr />
+                            <h3 className="card-title text-center">{heroe.name}</h3>
+                            {renderScore(heroe)}
+                            <hr />
+                        </div>
+                    </div>
                     <div className="card-body">
-                        <h5 className="card-title">{heroe.name}</h5>
                         <p className="card-text"><b>Age </b>{heroe.age}</p>
                         <p className="card-text"><b>Powers </b>{heroe.powers.map((power) => `${power.name}`).join(', ')}</p>
                     </div>
