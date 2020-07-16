@@ -41,7 +41,7 @@ const Cards = ({ heroes, handleDelete, mode }) => {
         const photoUrl = heroe.filePath ? heroe.filePath.replace('server/storage', 'http://localhost:3001/') : '';
         return (
             <div className="col-12 col-md-4 mb-2" key={heroe.id}>
-                <div className="card">
+                <div className="card" style={{minHeight: '520px', maxHeight: '520px'}}>
                     <img src={photoUrl} height="250" className="card-img-top" alt="..." />
                     {renderScore(heroe)}
                     <div className="card-body">
