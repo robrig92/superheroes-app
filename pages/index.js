@@ -7,24 +7,30 @@ import ResponseHandler from '../lib/response_handler'
 
 export default function ScoreBoard({ heroes }) {
     return (
-        <div className="container-fluid" style={{ minHeight: '100vh', minWidth: '100hw', backgroundColor: '#212121', color: '#ffffff' }}>
-            <Head>
-                <title>Heroes</title>
-            </Head>
+        <div clasaName="container-fluid" style={{ minHeight: '100vh', minWidth: '100hw', backgroundColor: '#212121', color: '#ffffff' }}>
             <div className="row">
-                <div className="col-12 text-center">
-                    <div>
-                        <hr />
-                        <h1>Rate my heroes!</h1>
-                        <hr />
+                <div className="col-12">
+                    <div className="container" style={{ minHeight: '100vh', backgroundColor: '#212121', color: '#ffffff' }}>
+                        <Head>
+                            <title>Heroes</title>
+                        </Head>
+                        <div className="row">
+                            <div className="col-12 text-center">
+                                <div>
+                                    <hr />
+                                    <h1>Rate my heroes!</h1>
+                                    <hr />
+                                </div>
+                            </div>
+                            <div className="col-12" style={{ color: '#000000' }}>
+                                <Cards
+                                    heroes={heroes}
+                                    handleDelete={() => {}}
+                                    mode="scores"
+                                />
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div className="col-12" style={{ color: '#000000' }}>
-                    <Cards
-                        heroes={heroes}
-                        handleDelete={() => {}}
-                        mode="scores"
-                    />
                 </div>
             </div>
         </div>
