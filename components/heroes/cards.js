@@ -10,7 +10,8 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 const Cards = ({ heroes, handleDelete, mode }) => {
     const [ modal, setModal ] = useState(false)
     const [ currentHeroe, setCurrentHeroe ] = useState({})
-    const toggle = () => setModal(!modal);
+    const [ scoreForm, setScoreForm ] = useState({})
+    const toggle = () => setModal(!modal)
 
     const handleClick = (e, heroe) => {
         setModal(true)
@@ -35,6 +36,16 @@ const Cards = ({ heroes, handleDelete, mode }) => {
         )
     }
 
+    const storeScore = (e) => {
+        console.log('sending form')
+        toggle()
+    }
+
+    const closeModal = () => {
+        setScoreForm({})
+        toggle()
+    }
+
     const renderScoreModal = () => {
         if (!renderScoreModal || mode === 'admin' || _.isEmpty(currentHeroe)) {
             return <></>
@@ -44,7 +55,7 @@ const Cards = ({ heroes, handleDelete, mode }) => {
 
         return (
             <div>
-                <Modal isOpen={modal} toggle={toggle} centered={true}>
+                <Modal isOpen={modal} toggle={closeModal} centered={true}>
                     <ModalHeader toggle={toggle}>Rate to {currentHeroe.name}</ModalHeader>
                     <ModalBody>
                         <div className="row">
@@ -63,14 +74,16 @@ const Cards = ({ heroes, handleDelete, mode }) => {
                         </div>
                         <div className="row">
                             <div className="col-12">
-                                <p><b>Age </b>{currentHeroe.age}</p>
-                                <p><b>Powers </b>{currentHeroe.powers.map((power) => `${power.name}`).join(', ')}</p>
+                                <div className="form-group">
+                                    <label htmlFor="comment">Make a comment</label>
+                                    <textarea name="comment" id="comment" className="form-control" value={scoreForm.comment || ''} onChange={e => setScoreForm({...scoreForm, comment: e.target.value})}></textarea>
+                                </div>
                             </div>
                         </div>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
-                        <Button color="secondary" onClick={toggle}>Cancel</Button>
+                        <Button color="primary" onClick={storeScore}>Score!</Button>{' '}
+                        <Button color="secondary" onClick={closeModal}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
             </div>
