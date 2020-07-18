@@ -33,7 +33,7 @@ const ScoreModal = ({ heroe, mode, showModal, setShowModal }) => {
         let headers = RequestHandler.addJwtToHeaders({}, jwt)
         let score = {}
 
-        score.score = scoreForm.score
+        score.score = scoreForm.score || 0
         if (scoreForm.comment) {
             score.comment = scoreForm.comment
         }
@@ -103,6 +103,8 @@ const ScoreModal = ({ heroe, mode, showModal, setShowModal }) => {
         }
 
         const photoUrl = heroe.filePath ? heroe.filePath.replace('server/storage', 'http://localhost:3001/') : '';
+        const cookiesManager = new CookiesManager()
+        const jwt = cookiesManager.get('jwt')
 
         return (
             <div>
@@ -112,27 +114,46 @@ const ScoreModal = ({ heroe, mode, showModal, setShowModal }) => {
                         <div className="row">
                             <div className="col-12 text-center">
                                 <img className="col-12" src={photoUrl} style={{maxHeight: '80vh'}}/>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-12 text-center">
                                 <hr />
-                                <h3>{heroe.name}</h3>
-                                <Score heroe={heroe} mode={mode} scoreForm={scoreForm} setScoreForm={setScoreForm} isRateable={true}/>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="form-group">
-                                    <label htmlFor="comment">Make a comment</label>
-                                    <textarea name="comment" id="comment" className="form-control" value={scoreForm.comment || ''} onChange={e => setScoreForm({...scoreForm, comment: e.target.value})}></textarea>
+                        { _.isEmpty(jwt)
+                            ? (
+                                <div className="row">
+                                    <div className="col-12 text-center">
+                                        <h3>{heroe.name}</h3>
+                                        <h5>You need to be logged into your account in order make a rate, <a href="#" onClick={(e) => e.preventDefault()}>sign in here!</a></h5>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            ) : (
+                                <>
+                                    <div className="row">
+                                        <div className="col-12 text-center">
+                                            <h3>{heroe.name}</h3>
+                                            <Score heroe={heroe} mode={mode} scoreForm={scoreForm} setScoreForm={setScoreForm} isRateable={true}/>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="form-group">
+                                                <label htmlFor="comment">Make a comment</label>
+                                                <textarea name="comment" id="comment" className="form-control" value={scoreForm.comment || ''} onChange={e => setScoreForm({...scoreForm, comment: e.target.value})}></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
                         {renderComments()}
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={storeScore}>Score!</Button>{' '}
+                        { _.isEmpty(jwt)
+                            ? (
+                                <></>
+                            ): (
+                                <>
+                                    <Button color="primary" onClick={storeScore}>Score!</Button>{' '}
+                                </>
+                        )}
                         <Button color="secondary" onClick={closeModal}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
