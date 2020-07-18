@@ -49,7 +49,7 @@ const Cards = ({ heroes, handleDelete, mode }) => {
                     <ModalBody>
                         <div className="row">
                             <div className="col-12 text-center">
-                                <img className="col-12" src={photoUrl} height="600"/>
+                                <img className="col-12" src={photoUrl} style={{maxHeight: '700px'}}/>
                             </div>
                         </div>
                         <div className="row">
@@ -59,7 +59,7 @@ const Cards = ({ heroes, handleDelete, mode }) => {
                                 {renderScore(currentHeroe)}
                                 <p className="text-center">Score {getScore(currentHeroe.scores)}</p>
                                 <hr />
-                        </div>
+                            </div>
                         </div>
                         <div className="row">
                             <div className="col-12">
