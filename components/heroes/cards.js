@@ -1,17 +1,20 @@
-import React, { useState } from 'react'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import Rating from 'react-rating'
+import React, { useState } from 'react'
 import _ from 'lodash'
 import {
     EditButton,
     DeleteButton
 } from "../forms/buttons"
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import CookiesManager from '../../lib/cookies_manager'
+import RequestHandler from '../../lib/request_handler'
 
 const Cards = ({ heroes, handleDelete, mode }) => {
     const [ modal, setModal ] = useState(false)
     const [ currentHeroe, setCurrentHeroe ] = useState({})
     const [ scoreForm, setScoreForm ] = useState({})
     const toggle = () => setModal(!modal)
+    const [ showComments, setShowComments ] = useState(false)
 
     const handleClick = (e, heroe) => {
         setModal(true)
@@ -36,14 +39,79 @@ const Cards = ({ heroes, handleDelete, mode }) => {
         )
     }
 
-    const storeScore = (e) => {
-        console.log('sending form')
+    const clossingModal = () => {
+        setScoreForm({})
+        setShowComments(false)
         toggle()
     }
 
+    const storeScore = (e) => {
+        const cookiesManager = new CookiesManager()
+        const jwt = cookiesManager.get('jwt')
+        let headers = RequestHandler.addJwtToHeaders({}, jwt)
+        let score = {}
+
+        score.score = scoreForm.score
+        if (scoreForm.comment) {
+            score.comment = scoreForm.comment
+        }
+
+        RequestHandler.post(`heroes/${currentHeroe.id}/scores`, score, { headers })
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        clossingModal()
+    }
+
     const closeModal = () => {
-        setScoreForm({})
-        toggle()
+        clossingModal()
+    }
+
+    const handleViewCommentsClick = (e) => {
+        e.preventDefault()
+        setShowComments(!showComments)
+    }
+
+    const renderComments = () => {
+        if (!showComments) {
+            return (
+                <div className="row">
+                    <div className="col-12 text-right">
+                        <a href="#" onClick={handleViewCommentsClick}>{ `View ${currentHeroe.scores.length} comments` }</a>
+                    </div>
+                </div>
+            )
+        }
+
+        return (
+            <>
+                <div className="row">
+                    <div className="col-12 text-right">
+                        <a href="#" onClick={handleViewCommentsClick}>{ `Hide comments` }</a>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-12">
+                        { currentHeroe.scores.map((score) => {
+                            return (
+                                <div key={score.id} className="row">
+                                    <div className="col-12">
+                                        <p><b>{ score.user ? score.user.name : `Unknown`}</b> rated <b>{score.score}</b> points</p>
+                                    </div>
+                                    <div className="col-12">
+                                        <p>{score.comment}</p>
+                                        <hr />
+                                    </div>
+                                </div>
+                            )
+                        }) }
+                    </div>
+                </div>
+            </>
+        );
     }
 
     const renderScoreModal = () => {
@@ -60,16 +128,14 @@ const Cards = ({ heroes, handleDelete, mode }) => {
                     <ModalBody>
                         <div className="row">
                             <div className="col-12 text-center">
-                                <img className="col-12" src={photoUrl} style={{maxHeight: '700px'}}/>
+                                <img className="col-12" src={photoUrl} style={{maxHeight: '80vh'}}/>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-12 text-center">
                                 <hr />
                                 <h3>{currentHeroe.name}</h3>
-                                {renderScore(currentHeroe)}
-                                <p className="text-center">Score {getScore(currentHeroe.scores)}</p>
-                                <hr />
+                                {renderScore(currentHeroe, true)}
                             </div>
                         </div>
                         <div className="row">
@@ -80,6 +146,7 @@ const Cards = ({ heroes, handleDelete, mode }) => {
                                 </div>
                             </div>
                         </div>
+                        {renderComments()}
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" onClick={storeScore}>Score!</Button>{' '}
@@ -98,9 +165,22 @@ const Cards = ({ heroes, handleDelete, mode }) => {
         return (scores.reduce((sum, score) => sum + score.score, 0) / scores.length).toFixed(2)
     }
 
-    const renderScore = (heroe) => {
+    const renderScore = (heroe, isRateable = false) => {
         if (mode !== 'scores') {
             return <></>
+        }
+
+        if (isRateable) {
+            return (
+                <div className="text-center mt-2">
+                    <Rating
+                        name="score"
+                        onClick={(value) => setScoreForm({...scoreForm, score: value})}
+                        initialRating={scoreForm.score || undefined}
+                        fractions={2}
+                    />
+                </div>
+            )
         }
 
         return (
