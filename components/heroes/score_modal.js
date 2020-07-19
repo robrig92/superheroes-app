@@ -1,8 +1,8 @@
+import Link from 'next/link'
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import _ from 'lodash'
-
 import AlertManager from '../../lib/alert_manager';
 import CookiesManager from '../../lib/cookies_manager'
 import RequestHandler from '../../lib/request_handler'
@@ -122,7 +122,7 @@ const ScoreModal = ({ heroe, mode, showModal, setShowModal }) => {
                                 <div className="row">
                                     <div className="col-12 text-center">
                                         <h3>{heroe.name}</h3>
-                                        <h5>You need to be logged into your account in order make a rate, <a href="#" onClick={(e) => e.preventDefault()}>sign in here!</a></h5>
+                                <h5>You need to be logged into your account in order to make a rate, <Link href='/login'><a>sign in here!</a></Link></h5>
                                     </div>
                                 </div>
                             ) : (
