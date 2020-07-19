@@ -16,7 +16,7 @@ const ScoreModal = ({ heroe, mode, showModal, setShowModal }) => {
     const router = useRouter()
 
     const getUserScore = (user) => {
-        const filteredScores = heroe.scores.filter((score) => score.user_id === user.id)
+        const filteredScores = heroe.scores.filter((score) => parseInt(score.user_id, 10) === parseInt(user.id, 10))
         const score = filteredScores.pop()
 
         return score
@@ -24,14 +24,15 @@ const ScoreModal = ({ heroe, mode, showModal, setShowModal }) => {
 
     useEffect(() => {
         const cookiesManager = new CookiesManager()
-        const user = cookiesManager.get('user')
+        const user = JSON.parse(cookiesManager.get('user') || '{}')
 
         if (showModal && !_.isEmpty(user)) {
             const score = getUserScore(user)
+            console.log(score)
 
             setScoreForm({
-                score: score.score || 0,
-                comment: score.comment || null
+                score: score ? score.score : 0,
+                comment: score ? score.comment : null
             })
         }
     }, [showModal])
@@ -51,7 +52,7 @@ const ScoreModal = ({ heroe, mode, showModal, setShowModal }) => {
         const alertManager = new AlertManager()
         const cookiesManager = new CookiesManager()
         const jwt = cookiesManager.get('jwt')
-        const user = cookiesManager.get('user')
+        const user = JSON.parse(cookiesManager.get('user') || '{}')
         let headers = RequestHandler.addJwtToHeaders({}, jwt)
         let score = {}
 
@@ -153,7 +154,8 @@ const ScoreModal = ({ heroe, mode, showModal, setShowModal }) => {
                                 <div className="row">
                                     <div className="col-12 text-center">
                                         <h3>{heroe.name}</h3>
-                                <h5>You need to be logged into your account in order to make a rate, <Link href='/login'><a>sign in here!</a></Link></h5>
+                                        <h5>You need to be logged into your account to rate</h5>
+                                        <h5><Link href='/login'><a>Sign in here!</a></Link></h5>
                                     </div>
                                 </div>
                             ) : (
