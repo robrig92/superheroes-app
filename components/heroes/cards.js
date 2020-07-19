@@ -1,11 +1,17 @@
-import React from 'react';
-import Rating from 'react-rating';
-import {
-    EditButton,
-    DeleteButton
-} from "../forms/buttons";
+import React, { useState } from 'react'
+import { DeleteButton, EditButton } from '../forms/buttons'
+import ScoreModal from './score_modal'
+import Score from './score'
 
 const Cards = ({ heroes, handleDelete, mode }) => {
+    const [ currentHeroe, setCurrentHeroe ] = useState({})
+    const [ showModal, setShowModal ] = useState(false)
+
+    const handleClick = (e, heroe) => {
+        setShowModal(true)
+        setCurrentHeroe(heroe)
+    }
+
     const renderControl = (heroe) => {
         if (mode !== 'admin') {
             return <></>
@@ -19,33 +25,21 @@ const Cards = ({ heroes, handleDelete, mode }) => {
         )
     }
 
-    const renderScore = (heroe) => {
-        if (mode !== 'scores') {
-            return <></>
-        }
-
-        return (
-            <div className="text-center mt-2">
-                <hr />
-                <Rating
-                    name="score"
-                    initialRating={(heroe.scores.reduce((sum, score) => sum + score.score, 0) / heroe.scores.length)}
-                    readonly
-                />
-                <hr />
-            </div>
-        )
-    }
-
     const renderCard = (heroe) => {
         const photoUrl = heroe.filePath ? heroe.filePath.replace('server/storage', 'http://localhost:3001/') : '';
         return (
             <div className="col-12 col-md-4 mb-2" key={heroe.id}>
-                <div className="card" style={{minHeight: '520px', maxHeight: '520px'}}>
+                <div className="card" style={{minHeight: '520px', maxHeight: '520px'}} onClick={e => handleClick(e, heroe)} style={{ cursor: 'pointer' }}>
                     <img src={photoUrl} height="250" className="card-img-top" alt="..." />
-                    {renderScore(heroe)}
+                    <div className="row">
+                        <div className="col-12 text-center">
+                            <hr />
+                            <h3 className="card-title text-center">{heroe.name}</h3>
+                            <Score heroe={heroe} mode={mode} scoreForm={{}} setScoreForm={()=>{}} isRateable={false} />
+                            <hr />
+                        </div>
+                    </div>
                     <div className="card-body">
-                        <h5 className="card-title">{heroe.name}</h5>
                         <p className="card-text"><b>Age </b>{heroe.age}</p>
                         <p className="card-text"><b>Powers </b>{heroe.powers.map((power) => `${power.name}`).join(', ')}</p>
                     </div>
@@ -58,6 +52,7 @@ const Cards = ({ heroes, handleDelete, mode }) => {
     return (
         <div className="row">
             {heroes.map((heroe) => renderCard(heroe))}
+            <ScoreModal heroe={currentHeroe} mode={mode} showModal={showModal} setShowModal={setShowModal}/>
         </div>
     )
 }

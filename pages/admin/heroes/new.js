@@ -28,7 +28,7 @@ export default function New({ heroe, powers }) {
 
                 alertManager.success('Created!', 'The heroe has been created')
 
-                setHeroe({}) 
+                setHeroe({})
                 setSelected([])
             })
             .catch((error) => {
