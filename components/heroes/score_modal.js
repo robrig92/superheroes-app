@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import AlertManager from '../../lib/alert_manager';
 import CookiesManager from '../../lib/cookies_manager'
@@ -14,6 +14,27 @@ const ScoreModal = ({ heroe, mode, showModal, setShowModal }) => {
     const toggle = () => setShowModal(!showModal)
     const [ showComments, setShowComments ] = useState(false)
     const router = useRouter()
+
+    const getUserScore = (user) => {
+        const filteredScores = heroe.scores.filter((score) => score.user_id === user.id)
+        const score = filteredScores.pop()
+
+        return score
+    }
+
+    useEffect(() => {
+        const cookiesManager = new CookiesManager()
+        const user = cookiesManager.get('user')
+
+        if (showModal && !_.isEmpty(user)) {
+            const score = getUserScore(user)
+
+            setScoreForm({
+                score: score.score || 0,
+                comment: score.comment || null
+            })
+        }
+    }, [showModal])
 
     const handleHide = () => {
         setCurrentHeroe({})
@@ -30,6 +51,7 @@ const ScoreModal = ({ heroe, mode, showModal, setShowModal }) => {
         const alertManager = new AlertManager()
         const cookiesManager = new CookiesManager()
         const jwt = cookiesManager.get('jwt')
+        const user = cookiesManager.get('user')
         let headers = RequestHandler.addJwtToHeaders({}, jwt)
         let score = {}
 
@@ -38,7 +60,16 @@ const ScoreModal = ({ heroe, mode, showModal, setShowModal }) => {
             score.comment = scoreForm.comment
         }
 
-        RequestHandler.post(`heroes/${heroe.id}/scores`, score, { headers })
+        const userScore = getUserScore(user)
+        let requestRoute = `heroes/${heroe.id}/scores`
+        let method = 'post'
+
+        if (!_.isEmpty(userScore)) {
+            requestRoute += `/${userScore.id}`
+            method = 'put'
+        }
+
+        RequestHandler[method](requestRoute, score, { headers })
             .then((response) => {
                 const responseHandler = new ResponseHandler(response)
                 clossingModal()
