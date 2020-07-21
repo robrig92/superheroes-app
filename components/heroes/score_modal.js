@@ -28,7 +28,6 @@ const ScoreModal = ({ heroe, mode, showModal, setShowModal }) => {
 
         if (showModal && !_.isEmpty(user)) {
             const score = getUserScore(user)
-            console.log(score)
 
             setScoreForm({
                 score: score ? score.score : 0,
