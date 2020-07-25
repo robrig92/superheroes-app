@@ -10,7 +10,8 @@ import {
     FaHome,
     FaMask,
     FaMagic,
-    FaSignOutAlt
+    FaSignOutAlt,
+    FaStar
 } from 'react-icons/fa';
 
 export default function Layout({ title, children, selected }) {
@@ -48,6 +49,9 @@ export default function Layout({ title, children, selected }) {
                     </li>
                     <li className={`${styles.sideBarItem} ${selected === 'powers' ? styles.active : ''}`}>
                         <Link href="/admin/powers"><a className={styles.navLink}><FaMagic size="1.5em"/> Powers</a></Link>
+                    </li>
+                    <li className={`${styles.sideBarItem}`}>
+                        <Link href="/"><a className={styles.navLink}><FaStar size="1.5em"/> Scores</a></Link>
                     </li>
                     <li className={`${styles.logOutButtonContainer}`}>
                         <a className={`${styles.logOutButton}`} onClick={handleLogOut}><FaSignOutAlt size="1.2em"/> Log out</a>

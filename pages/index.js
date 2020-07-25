@@ -6,7 +6,7 @@ import Cards from '../components/heroes/cards'
 import RequestHandler from '../lib/request_handler'
 import ResponseHandler from '../lib/response_handler'
 import CookiesManager from '../lib/cookies_manager'
-import { FaSignOutAlt, FaSignInAlt } from 'react-icons/fa'
+import { FaSignOutAlt, FaSignInAlt, FaUser } from 'react-icons/fa'
 import { useRouter } from 'next/router'
 
 export default function ScoreBoard({ heroes }) {
@@ -40,6 +40,22 @@ export default function ScoreBoard({ heroes }) {
         router.push('/login')
     }
 
+    const handleAdminClick = (e) => {
+        e.preventDefault()
+
+        router.push('/admin')
+    }
+
+    const adminControls = () => {
+        if (!isLogged) {
+            return <></>
+        }
+
+        return (
+            <a href="#" onClick={handleAdminClick} style={{ color: '#ffffff' }}><FaUser /> Admin</a>
+        )
+    }
+
     const authControls = () => {
         if (isLogged) {
             return (
@@ -64,7 +80,10 @@ export default function ScoreBoard({ heroes }) {
                             <div className="col-12 text-center">
                                 <hr />
                                 <div className="row">
-                                    <div className="offset-2 col-8">
+                                    <div className="col-2 align-self-center">
+                                        {adminControls()}
+                                    </div>
+                                    <div className="col-8">
                                         <h1>Rate my heroes!</h1>
                                     </div>
                                     <div className="col-2 align-self-center">
