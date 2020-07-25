@@ -29,7 +29,7 @@ export default function New() {
 
     return(
         <Layout title="Add a power" selected="power">
-            <Form power={{}} handleSubmit={handleSubmit}/>
+            <Form power={{}} handleSubmit={handleSubmit} toggle={true}/>
         </Layout>
     )
 }

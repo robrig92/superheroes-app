@@ -62,7 +62,6 @@ export default function Layout({ title, children, selected }) {
             <Head>
                 <title>Heroes app</title>
             </Head>
-            {displayMenu }
             <div className="row">
                 {renderMenu()}
                 <div className={displayMenu ? "col-12 col-md-9 col-lg-10 mt-3" : "col-12 mt-3"}>
