@@ -27,7 +27,7 @@ export default function editForm( {power} ) {
         <Layout title={`Update power with id ${power.id}`} selected="powers">
             <div className="row">
                 <div className="col-12">
-                    <Form power={power} handleSubmit={handleSubmit}/>
+                    <Form power={power} handleSubmit={handleSubmit} toggle={true}/>
                 </div>
             </div>
         </Layout>

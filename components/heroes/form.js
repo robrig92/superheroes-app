@@ -4,10 +4,13 @@ import Rating from 'react-rating'
 import { SaveButton, SimpleBackButton } from '../forms/buttons'
 import MultiSelect from "react-multi-select-component"
 import { FileUpload, PhotoContainer } from '../forms/file'
+import {FaPlus} from "react-icons/fa"
+import ModalForm from "../powers/modal_form"
 
 export default function Form({ heroe, powers, handleSubmit }) {
     const [currentHeroe, setHeroe] = useState({...heroe})
     const [selected, setSelected] = useState(heroe.powers)
+    const [showModal, setShowModal] = useState(false)
 
     const handlingSubmit = (event) => {
         event.preventDefault()
@@ -101,6 +104,14 @@ export default function Form({ heroe, powers, handleSubmit }) {
                 </div>
                 <div className="row">
                     <div className="col-12">
+                        <div className="form-group">
+                            <a className="btn btn-primary" onClick={(e) => {setShowModal(true)}}><FaPlus size="1.2em"/> power</a>
+                            <small className="form-text text-muted">Can't find your super power here? Feel free of adding it</small>
+                        </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-12">
                         <FileUpload
                             nameLabel={currentHeroe.photo ? currentHeroe.photo.name : 'Select a file'}
                             handlePhotoOnChange={handlePhotoOnChange}
@@ -110,9 +121,10 @@ export default function Form({ heroe, powers, handleSubmit }) {
                 {renderScore(currentHeroe.scores || undefined)}
                 <div className="form-group text-right mt-2">
                     <SaveButton/>
-                    <SimpleBackButton href="/admin/heroes"/>
+                    <SimpleBackButton href="/admin/heroes" toggle={true}/>
                 </div>
             </form>
+            <ModalForm showModal={showModal} setShowModal={setShowModal}/>
         </Container>
     )
 }

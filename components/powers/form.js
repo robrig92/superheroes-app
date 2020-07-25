@@ -2,14 +2,21 @@ import { useState } from 'react'
 import { Container } from 'reactstrap'
 import { SaveButton, SimpleBackButton } from '../../components/forms/buttons'
 
-
-export default function Form({ power, handleSubmit }) {
+export default function Form({ power, handleSubmit, toggle }) {
     const [currentPower, setPower] = useState({ ...power })
 
     const handleOnChange = (event, power, setPower) => {
         let name = event.target.value
     
         setPower({ ...power, name: name })
+    }
+
+    const renderBackButton = () => {
+        if (toggle) {
+            return <SimpleBackButton href="/admin/powers" toggle={toggle}/>
+        }
+
+        return <></>
     }
 
     return(
@@ -22,7 +29,7 @@ export default function Form({ power, handleSubmit }) {
                 </div>
                 <div className="form-group text-right">
                     <SaveButton/>
-                    <SimpleBackButton href="/admin/powers" />
+                    {renderBackButton()}
                 </div>
             </form>
         </Container>

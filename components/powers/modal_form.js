@@ -1,11 +1,10 @@
-import Layout from "../../../components/layout"
-import Form from '../../../components/powers/form'
-import RequestHandler from '../../../lib/request_handler'
-import CookiesManager from '../../../lib/cookies_manager'
-import ResponseHandler from '../../../lib/response_handler'
-import AlertManager from '../../../lib/alert_manager'
+import React from 'react'
+import {Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
+import Form from './form'
 
-export default function New() {
+const ModalForm = ({ showModal, setShowModal }) => {
+    const toggle = () => setShowModal(!showModal)
+
     const handleSubmit = (event, power, setPower) => {
         event.preventDefault()
 
@@ -28,8 +27,15 @@ export default function New() {
     }
 
     return(
-        <Layout title="Add a power" selected="power">
-            <Form power={{}} handleSubmit={handleSubmit} toggle={true}/>
-        </Layout>
+        <div>
+            <Modal isOpen={showModal} toggle={toggle} centered={true}>
+                <ModalHeader toggle={toggle}>New power</ModalHeader>
+                <ModalBody>
+                    <Form power={{}} handleSubmit={handleSubmit} toggle={false}/>
+                </ModalBody>
+            </Modal>
+        </div>
     )
 }
+
+export default ModalForm
