@@ -34,11 +34,11 @@ export default function Layout({ title, children, selected }) {
 
     const renderMenu = () => {
         if (!displayMenu) {
-            return <div></div>
+            return <></>
         }
 
         return (
-            <nav className={`col-12 col-md-3 col-lg-2 ${styles.sidebarContainer} ${styles.sidebar}`}>
+            <div className={`col-12 col-md-3 col-lg-2 ${styles.sidebarContainer} ${styles.sidebar}`}>
                 <ul className={`${styles.sidebarList}`}>
                     <li className={`${styles.sideBarItem} ${selected === undefined ? styles.active : ''}`}>
                         <Link href="/admin"><a className={styles.navLink}><FaHome size="1.5em"/> Home</a></Link>
@@ -53,7 +53,7 @@ export default function Layout({ title, children, selected }) {
                         <a className={`${styles.logOutButton}`} onClick={handleLogOut}><FaSignOutAlt size="1.2em"/> Log out</a>
                     </li>
                 </ul>
-            </nav>
+            </div>
         )
     }
 
@@ -62,7 +62,6 @@ export default function Layout({ title, children, selected }) {
             <Head>
                 <title>Heroes app</title>
             </Head>
-            {displayMenu }
             <div className="row">
                 {renderMenu()}
                 <div className={displayMenu ? "col-12 col-md-9 col-lg-10 mt-3" : "col-12 mt-3"}>

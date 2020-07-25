@@ -1,9 +1,16 @@
 import React from 'react'
 import {Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
 import Form from './form'
+import CookiesManager from '../../lib/cookies_manager'
+import AlertManager from '../../lib/alert_manager'
+import ResponseHandler from '../../lib/response_handler'
+import RequestHandler from '../../lib/request_handler'
 
-const ModalForm = ({ showModal, setShowModal }) => {
-    const toggle = () => setShowModal(!showModal)
+const ModalForm = ({ showModal, setShowModal, handleClose }) => {
+    const toggle = () => {
+        setShowModal(!showModal)
+        handleClose()
+    }
 
     const handleSubmit = (event, power, setPower) => {
         event.preventDefault()

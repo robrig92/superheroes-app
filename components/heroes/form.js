@@ -6,11 +6,16 @@ import MultiSelect from "react-multi-select-component"
 import { FileUpload, PhotoContainer } from '../forms/file'
 import {FaPlus} from "react-icons/fa"
 import ModalForm from "../powers/modal_form"
+import CookiesManager from '../../lib/cookies_manager'
+import AlertManager from '../../lib/alert_manager'
+import ResponseHandler from '../../lib/response_handler'
+import RequestHandler from '../../lib/request_handler'
 
 export default function Form({ heroe, powers, handleSubmit }) {
     const [currentHeroe, setHeroe] = useState({...heroe})
     const [selected, setSelected] = useState(heroe.powers)
     const [showModal, setShowModal] = useState(false)
+    const [currentPowers, setCurrentPowers] = useState(powers)
 
     const handlingSubmit = (event) => {
         event.preventDefault()
@@ -62,6 +67,22 @@ export default function Form({ heroe, powers, handleSubmit }) {
         )
     }
 
+    const handleClose = () => {
+        const cookiesManager = new CookiesManager()
+        const jwt = cookiesManager.get('jwt')
+        let headers = RequestHandler.addJwtToHeaders({}, jwt)
+        const alertManager = new AlertManager()
+
+        RequestHandler.get('powers', { headers })
+            .then((response) => {
+                let responseHandler = new ResponseHandler(response)
+                setCurrentPowers(responseHandler.data.powers.map((power) => ({label: power.name, value: power.id})))
+            })
+            .catch((error) => {
+                alertManager.error('Oops...', 'Something went wrong!')
+            })
+    }
+
     return (
         <Container>
             <form onSubmit={(e) => handlingSubmit(e)}>
@@ -93,7 +114,7 @@ export default function Form({ heroe, powers, handleSubmit }) {
                         <div className="form-group">
                             <label htmlFor="powers">Powers</label>
                             <MultiSelect
-                                options={powers}
+                                options={currentPowers}
                                 value={selected}
                                 onChange={setSelected}
                                 labelledBy={"Select"}
@@ -105,7 +126,7 @@ export default function Form({ heroe, powers, handleSubmit }) {
                 <div className="row">
                     <div className="col-12">
                         <div className="form-group">
-                            <a className="btn btn-primary" onClick={(e) => {setShowModal(true)}}><FaPlus size="1.2em"/> power</a>
+                            <button type="button" className="btn btn-primary btn-xs" onClick={(e) => {setShowModal(true)}}><FaPlus size="1.2em"/> power</button>
                             <small className="form-text text-muted">Can't find your super power here? Feel free of adding it</small>
                         </div>
                     </div>
@@ -124,7 +145,7 @@ export default function Form({ heroe, powers, handleSubmit }) {
                     <SimpleBackButton href="/admin/heroes" toggle={true}/>
                 </div>
             </form>
-            <ModalForm showModal={showModal} setShowModal={setShowModal}/>
+            <ModalForm showModal={showModal} setShowModal={setShowModal} handleClose={handleClose}/>
         </Container>
     )
 }
