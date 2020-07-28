@@ -30,7 +30,7 @@ export default function Index({ powers }) {
             reverseButtons: true
         }).then((result) => {
             if (result.value) {
-                RequestHandler.delete(`http://localhost:3001/powers/${id}`, { headers })
+                RequestHandler.delete(`https://frozen-earth-57631.herokuapp.com/powers/${id}`, { headers })
                     .then((response) => {
                         alertManager.success('Deleted!', 'The power has been deleted')
                         router.push('/admin/powers')

@@ -133,7 +133,7 @@ const ScoreModal = ({ heroe, mode, showModal, setShowModal }) => {
             return <></>
         }
 
-        const photoUrl = heroe.filePath ? heroe.filePath.replace('server/storage', 'http://localhost:3001/') : '';
+        const photoUrl = heroe.filePath ? heroe.filePath.replace('server/storage', 'https://frozen-earth-57631.herokuapp.com/') : '';
         const cookiesManager = new CookiesManager()
         const jwt = cookiesManager.get('jwt')
 

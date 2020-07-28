@@ -1,7 +1,7 @@
 
 const serverFileRoute = (filePath) => {
     const staticRoute = filePath.replace('server/storage', '')
-    const url = `http://localhost:3001/${staticRoute}`
+    const url = `https://frozen-earth-57631.herokuapp.com/${staticRoute}`
 
     return url
 }
