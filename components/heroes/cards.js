@@ -26,7 +26,7 @@ const Cards = ({ heroes, handleDelete, mode }) => {
     }
 
     const renderCard = (heroe) => {
-        const photoUrl = heroe.filePath ? heroe.filePath.replace('server/storage', 'http://localhost:3001/') : '';
+        const photoUrl = heroe.filePath ? heroe.filePath.replace('server/storage', 'https://frozen-earth-57631.herokuapp.com/') : '';
         return (
             <div className="col-12 col-md-4 mb-2" key={heroe.id}>
                 <div className="card" style={{minHeight: '520px', maxHeight: '520px'}} onClick={e => handleClick(e, heroe)} style={{ cursor: 'pointer' }}>
