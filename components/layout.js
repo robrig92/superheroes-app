@@ -4,7 +4,7 @@ import { Container } from "reactstrap"
 import styles from './layout.module.css'
 import CookiesManager from '../lib/cookies_manager';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     FaBars,
     FaHome,
@@ -17,7 +17,7 @@ import {
 export default function Layout({ title, children, selected }) {
     const router = useRouter()
     const cookiesManager = new CookiesManager()
-    const [displayMenu, setDisplayMenu] = useState(cookiesManager.get('displayMenu') === undefined || cookiesManager.get('displayMenu') === 'true' ? true : false);
+    const [displayMenu, setDisplayMenu] = useState(false);
 
     const handleLogOut = (e) => {
         const cookiesManager = new CookiesManager()
@@ -32,6 +32,10 @@ export default function Layout({ title, children, selected }) {
         setDisplayMenu(updatedDisplayMenu)
         cookiesManager.set('displayMenu', updatedDisplayMenu)
     }
+
+    useEffect(() => {
+       setDisplayMenu(cookiesManager.get('displayMenu') === undefined || cookiesManager.get('displayMenu') === 'true' ? true : false)
+    })
 
     const renderMenu = () => {
         if (!displayMenu) {
