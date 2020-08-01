@@ -10,19 +10,20 @@ import { FaSignOutAlt, FaSignInAlt, FaUser } from 'react-icons/fa'
 import { useRouter } from 'next/router'
 
 export default function ScoreBoard({ heroes }) {
-    const [ isLogged, setIsLogged ] = useState(false)
+    const [isLogged, setIsLogged] = useState(false)
+    const [isAdmin, setIsAdmin] = useState(false)
     const router = useRouter()
     
     useEffect(() => {
         const cookiesManager = new CookiesManager()
         const jwt = cookiesManager.get('jwt')
+        const user = JSON.parse(cookiesManager.get('user'))
 
-        if (jwt) {
-            setIsLogged(true)
-        } else {
-            setIsLogged(false)
-        }
-    })
+        setIsLogged(jwt ? true : false)
+        setIsAdmin(user ? user.isAdmin : false)
+        console.log(isAdmin)
+        console.log(user.isAdmin)
+    }, [])
 
     const handleSignOut = (e) => {
         e.preventDefault()
