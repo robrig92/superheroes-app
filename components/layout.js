@@ -24,7 +24,7 @@ export default function Layout({ title, children, selected }) {
 
         cookiesManager.destroy('jwt')
         cookiesManager.destroy('user')
-        router.push('/admin/login')
+        router.push('/login')
     }
 
     const handleDisplayMenu = (e) => {
