@@ -9,11 +9,11 @@ export default function App({ Component, pageProps }) {
     if (typeof window !== 'undefined') {
         let jwt = Cookies.get('jwt')
 
-        if ((jwt === undefined || !jwt) && router.route !== '/admin/login' && router.route.includes('/admin')) {
-            router.push('/admin/login')
+        if ((jwt === undefined || !jwt) && router.route !== '/login' && router.route.includes('/admin')) {
+            router.push('/login')
         }
 
-        if (router.route === '/admin/login' && jwt) {
+        if (router.route === '/login' && jwt) {
             router.push('/admin')
         }
     }
@@ -30,12 +30,12 @@ App.getInitialProps = async (context) => {
         const cookies = ctx.req.cookies
         const jwt = cookies.jwt
 
-        if (!jwt && ctx.req.url !== '/admin/login' && ctx.req.url.includes('/admin')) {
-            ctx.res.writeHead(302, { Location: '/admin/login' })
+        if (!jwt && ctx.req.url !== '/login' && ctx.req.url.includes('/admin')) {
+            ctx.res.writeHead(302, { Location: '/login' })
             ctx.res.end()
         }
 
-        if (jwt && ctx.req.url === '/admin/login') {
+        if (jwt && ctx.req.url === '/login') {
             ctx.res.writeHead(302, { Location: '/admin' })
             ctx.res.end()
         }

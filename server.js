@@ -6,10 +6,13 @@ const cookieParser = require('cookie-parser')
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
+const { checkIsAdmin } = require('./middlewares/admin')
 
 app.prepare().then(() => {
     const server = express()
     server.use(cookieParser())
+
+    server.all(/\/admin*/, checkIsAdmin)
 
     server.get('*', (req, res) => {
         const parsedUrl = parse(req.url, true)
