@@ -9,7 +9,7 @@
     "compile-styles": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 ./scss/custom.scss ./public/css/styles.css"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
