@@ -56,7 +56,7 @@ export default function Layout({ title, children, selected }) {
                         <Link href="/admin/powers"><a className={styles.navLink}><FaMagic size="1.5em"/> Powers</a></Link>
                     </li>
                     <li className={`${styles.sideBarItem} ${selected === 'users' ? styles.active : ''}`}>
-                        <Link href="/admin/users"><a className={styles.navLink}><FaUsers size="1.5em"/>Users</a></Link>
+                        <Link href="/admin/users"><a className={styles.navLink}><FaUsers size="1.5em"/> Users</a></Link>
                     </li>
                     <li className={`${styles.sideBarItem}`}>
                         <Link href="/"><a className={styles.navLink}><FaStar size="1.5em"/> Scores</a></Link>

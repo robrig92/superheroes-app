@@ -52,11 +52,11 @@ export default function Index({ users }) {
                     <table className="table table-striped">
                         <thead className="thead-dark">
                             <tr>
-                                <td>ID</td>
-                                <td>Username</td>
-                                <td>Name</td>
-                                <td>Email</td>
-                                <td></td>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>

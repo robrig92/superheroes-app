@@ -9,22 +9,22 @@
     "compile-styles": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 ./scss/custom.scss ./public/css/styles.css"
   },
   "dependencies": {
-    "axios": "^0.19.2",
-    "bootstrap": "^4.4.1",
+    "axios": "^0.21.1",
+    "bootstrap": "^4.6.0",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
-    "jquery": "^3.5.0",
+    "jquery": "^3.5.1",
     "js-cookie": "^2.2.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.20",
     "next": "9.3.5",
     "popper.js": "^1.16.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-icons": "^3.10.0",
-    "react-multi-select-component": "^2.0.4",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-icons": "^3.11.0",
+    "react-multi-select-component": "^2.0.14",
     "react-rating": "^2.0.5",
-    "reactstrap": "^8.4.1",
-    "sweetalert2": "^9.10.12"
+    "reactstrap": "^8.9.0",
+    "sweetalert2": "^9.17.2"
   },
   "devDependencies": {
     "clean-css-cli": "^4.3.0",
