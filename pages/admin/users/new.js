@@ -11,7 +11,7 @@ export default function New () {
         const headers = RequestHandler.addJwtToHeaders({}, jwt)
         const alertManager = new AlertManager()
 
-        RequestHandler.post('/users', user, { headers })
+        RequestHandler.post('/admins', user, { headers })
             .then(response => {
                 let createdUser = response.data.data.user
 
