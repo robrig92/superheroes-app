@@ -12,7 +12,13 @@ export const FileUpload = ({ nameLabel, handlePhotoOnChange }) => {
             <div className="col-12">
                 <label htmlFor="photo">Photo</label>
                 <div className="custom-file">
-                    <input type="file" className="custom-file-input" id="photo" onChange={handlePhotoOnChange} />
+                    <input
+                        style={{ zIndex: '-2' }}
+                        type="file"
+                        className="custom-file-input"
+                        id="photo"
+                        onChange={handlePhotoOnChange}
+                    />
                     <label className="custom-file-label" htmlFor="photo">{nameLabel}</label>
                 </div> 
             </div> 
